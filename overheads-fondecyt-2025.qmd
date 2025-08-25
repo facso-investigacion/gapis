@@ -36,7 +36,8 @@ overheads <- data |>
     anio_concurso == 2022 ~ financ_ano_4
   ),
   ppto_2025= ifelse(is.na(ppto_2025), ppto_promedio_anual, ppto_2025),
-  overheads = ppto_2025 * 0.2,
+  ppto_2025_solicitado= ppto_2025/1.2,
+  overheads = ppto_2025_solicitado*0.2,
   overheads_dip = overheads * 0.075
 ) |>
   select(
@@ -44,7 +45,8 @@ overheads <- data |>
     codigo_proyecto,
     investigador_responsable,
     instrumento,
-    ppto_promedio_anual,
+    ppto_2025,
+    ppto_2025_solicitado,
     overheads,
     overheads_dip
   )
@@ -67,17 +69,18 @@ overheads |>
     `Código` = codigo_proyecto,
     `IR` = investigador_responsable,
     `Instrumento` = instrumento,
-    `Ppto prom. anual ($)` = ppto_promedio_anual,
+    `Ppto anual total ($)` = ppto_2025,
+    "Ppto solicitado 2025 ($)" = ppto_2025_solicitado,
     `Overheads Total ($)` = overheads,
     `Overheads DIP ($)` = overheads_dip
   ) |>
   gt() |>
   fmt_number(
-    columns = c(`Ppto prom. anual ($)`, `Overheads Total ($)`, `Overheads DIP ($)`),
+    columns = c(`Ppto anual total ($)`, "Ppto solicitado 2025 ($)", `Overheads Total ($)`, `Overheads DIP ($)`),
     decimals = 0, sep_mark = ".", dec_mark = ","   # separador de miles
   ) |>
   grand_summary_rows(
-    columns = c(`Ppto prom. anual ($)`, `Overheads Total ($)`, `Overheads DIP ($)`),
+    columns = c(`Ppto anual total ($)`, `Overheads Total ($)`, "Ppto solicitado 2025 ($)", `Overheads DIP ($)`),
     fns = list("Total" = ~ sum(., na.rm = TRUE)),
     fmt = ~fmt_number(., decimals = 0, sep_mark = ".", dec_mark = ",")
   ) |>
