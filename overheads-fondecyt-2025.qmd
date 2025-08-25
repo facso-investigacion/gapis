@@ -1,0 +1,120 @@
+---
+title: "Estimación Ingresos por Overheads 2025"
+subtitle: "Concursos FONDECYT"
+author: "Dirección de Investigación y Publicaciones"
+date: last-modified
+format: html
+execute: 
+  echo: false
+  warning: false
+  error: false
+  message: false
+---
+
+```{r}
+#| output: false
+
+library(pacman)
+p_load(tidyverse,
+       readr,
+       gt)
+
+data <- read_csv("input/proyectos-ejecucion.csv")
+
+```
+
+```{r}
+
+overheads <- data |>
+  mutate(
+  ppto_promedio_anual = monto_adjudicado/duracion*12000,
+  across(starts_with("financ_ano"), as.numeric),
+  ppto_2025 = case_when(
+    anio_concurso == 2025 ~ financ_ano_1,
+    anio_concurso == 2024 ~ financ_ano_2,
+    anio_concurso == 2023 ~ financ_ano_3,
+    anio_concurso == 2022 ~ financ_ano_4
+  ),
+  ppto_2025= ifelse(is.na(ppto_2025), ppto_promedio_anual, ppto_2025),
+  overheads = ppto_2025 * 0.2,
+  overheads_dip = overheads * 0.075
+) |>
+  select(
+    anio_concurso,
+    codigo_proyecto,
+    investigador_responsable,
+    instrumento,
+    ppto_promedio_anual,
+    overheads,
+    overheads_dip
+  )
+```
+
+## Supuestos
+
+- Proyectos en ejecución con Investigador Responsable FACSO registrados en SEPAVID
+- Si no se tiene registro del presupuesto anualizado, se imputó un promedio anual a partir del monto total adjudicado. 
+- Se asume un overhead de 20% sobre el presupuesto 2025
+
+
+```{r}
+#| label: tabla-overheads
+#| tbl-cap: "Estimación de ingresos por Overheads proyectos FONDECYT 2025"
+
+overheads |>
+  rename(
+    `Año concurso` = anio_concurso,
+    `Código` = codigo_proyecto,
+    `IR` = investigador_responsable,
+    `Instrumento` = instrumento,
+    `Ppto prom. anual ($)` = ppto_promedio_anual,
+    `Overheads Total ($)` = overheads,
+    `Overheads DIP ($)` = overheads_dip
+  ) |>
+  gt() |>
+  fmt_number(
+    columns = c(`Ppto prom. anual ($)`, `Overheads Total ($)`, `Overheads DIP ($)`),
+    decimals = 0, sep_mark = ".", dec_mark = ","   # separador de miles
+  ) |>
+  grand_summary_rows(
+    columns = c(`Ppto prom. anual ($)`, `Overheads Total ($)`, `Overheads DIP ($)`),
+    fns = list("Total" = ~ sum(., na.rm = TRUE)),
+    fmt = ~fmt_number(., decimals = 0, sep_mark = ".", dec_mark = ",")
+  ) |>
+  tab_style(
+    style = cell_text(weight = "bold"),             # fila Total en negrita
+    locations = cells_grand_summary(columns = everything())
+  ) |>
+  tab_options(table.font.size = px(16))
+```
+Nota. El presupesto anual de los proyectos 1240922 y 1214012 corresponde a una imputación a partir del monto total adjudicado. 
+
+
+```{r}
+#| label: tabla-overheads-instrumento
+#| tbl-cap: "Estimación de ingresos por Overheads 2025, por tipo de instrumento"
+
+
+overheads |>
+  group_by(instrumento) |>
+  summarise(
+    "Overhead Total" = sum(overheads, na.rm = TRUE),
+    "Overhad DIP" = sum(overheads_dip, na.rm = TRUE)
+  ) |>
+  gt() |>
+  fmt_number(
+    columns = c(`Overhead Total`, `Overhad DIP`),
+    decimals = 0, sep_mark = ".", dec_mark = ","   # separador de miles
+  ) |>
+  grand_summary_rows(
+    columns = c(`Overhead Total`, `Overhad DIP`),
+    fns = list("Total" = ~ sum(., na.rm = TRUE)),
+    fmt = ~fmt_number(., decimals = 0, sep_mark = ".", dec_mark = ",")
+  ) |>
+   tab_style(
+    style = cell_text(weight = "bold"),             # fila Total en negrita
+    locations = cells_grand_summary(columns = everything())
+  ) |>
+  tab_options(table.font.size = px(16))
+```
+
