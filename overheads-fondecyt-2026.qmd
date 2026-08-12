@@ -1,0 +1,181 @@
+---
+title: "Estimación Ingresos por Overheads 2026"
+subtitle: "Concursos FONDECYT"
+author: "Dirección de Investigación y Publicaciones"
+date: last-modified
+format: html
+execute:
+  echo: false
+  warning: false
+  error: false
+  message: false
+---
+
+```{r}
+#| output: false
+
+library(pacman)
+p_load(tidyverse,
+       readr,
+       gt,
+       writexl)
+
+data <- read_csv("input/proyectos_vigentes.csv")
+
+```
+
+```{r}
+
+overheads <- data |>
+  filter(concurso %in% c("Fondecyt Regular", "Iniciación en Investigación")) |>
+  mutate(
+ across(starts_with("financ_ano"), as.numeric),
+ monto_adjudicado = ifelse(is.na(monto_adjudicado), (financ_ano_1+financ_ano_2+financ_ano_3+financ_ano_4)*100, monto_adjudicado),
+  ppto_promedio_anual = monto_adjudicado/duracion*12000,
+  ppto_2026 = case_when(
+    anio_concurso == 2026 ~ financ_ano_1,
+    anio_concurso == 2025 ~ financ_ano_2,
+    anio_concurso == 2024 ~ financ_ano_3,
+    anio_concurso == 2023 ~ financ_ano_4
+  ),
+  ppto_2026= ifelse(is.na(ppto_2026) | ppto_2026==0, ppto_promedio_anual, ppto_2026),
+  ppto_2026 = ppto_2026-7500000,
+  ppto_2026_solicitado= round((ppto_2026/1.2),0),
+  overheads = round((ppto_2026_solicitado*0.2),0),
+  overheads_facso = round((overheads*0.75),0),
+  overheads_dip = round((overheads * 0.075),0)
+) |>
+  select(
+    anio_concurso,
+    codigo_proyecto,
+    investigador_responsable,
+    departamento_ir,
+    instrumento = concurso,
+    ppto_2026,
+    ppto_2026_solicitado,
+    overheads,
+    overheads_facso,
+    overheads_dip
+  )
+
+
+```
+
+
+## Cálculo y supuestos
+
+1. **Presupuesto anual 2026**: se toma el monto de financiamiento del proyecto correspondiente al año 2026 según su año de concurso;
+  - Concurso 2026 → `año 1
+  - Concurso 2025 → `año 2
+  - Concurso 2024 → `año 3
+  - Concurso 2023 → `año 4
+2. **Imputación cuando falta el dato**: si el presupuesto 2026 queda vacío o en 0, se reemplaza por un promedio anual estimado.
+- Al presupuesto 2026 se le resta un monto fijo de $7.500.000, correspondiente al máximo de honorarios que se puede pagar el IR. Se asume el monto máximo en todos los casos. 
+3. **Presupuesto solicitado**: se divide el presupuesto ajustado por 1,2, asumiendo que ese monto registrado por SEPAVID ya incluye un 20% de overhead sobre el presupuesto solicitado. Se asume un 20% para todos los proyectos. 
+- **Overhead total**: corresponde al 20% del presupuesto solicitado. Se asumo 20% para todos los proyectos. 
+- **Distribución del overhead**: del overhead total, un 75% se asigna a FACSO y un 7,5% a la DIP.
+- **Distribución del overhead FACSO**: del overhead FACSO, un 50% se asigna a la DEA, un 40% al Departamento del IR y un 10% a la DIP.
+
+```{r}
+#| label: tabla-overheads
+#| tbl-cap: "Estimación de ingresos por Overheads proyectos FONDECYT 2026"
+
+planilla <- overheads |>
+  rename(
+    `Año concurso` = anio_concurso,
+    `Código` = codigo_proyecto,
+    `IR` = investigador_responsable,
+    `Instrumento` = instrumento,
+    `Ppto anual total ($)` = ppto_2026,
+    "Ppto solicitado 2026 ($)" = ppto_2026_solicitado,
+    `Overheads Total ($)` = overheads,
+    "Overheads FACSO ($)" = overheads_facso,
+    `Overheads DIP ($)` = overheads_dip
+  )
+
+write_xlsx(planilla, "overheads_2026.xlsx")
+
+planilla |>
+  gt() |>
+  fmt_number(
+    columns = c(`Ppto anual total ($)`, "Ppto solicitado 2026 ($)", `Overheads Total ($)`, "Overheads FACSO ($)",
+                `Overheads DIP ($)`),
+    decimals = 0, sep_mark = ".", dec_mark = ","   # separador de miles
+  ) |>
+  grand_summary_rows(
+    columns = c(`Ppto anual total ($)`, `Overheads Total ($)`, "Ppto solicitado 2026 ($)", "Overheads FACSO ($)",
+                `Overheads DIP ($)`),
+    fns = list("Total" = ~ sum(., na.rm = TRUE)),
+    fmt = ~fmt_number(., decimals = 0, sep_mark = ".", dec_mark = ",")
+  ) |>
+  tab_style(
+    style = cell_text(weight = "bold"),             # fila Total en negrita
+    locations = cells_grand_summary(columns = everything())
+  ) |>
+  tab_options(table.font.size = px(16))
+```
+Nota. El presupuesto anual de los proyectos con presupuesto imputado corresponde a una imputación a partir del monto total adjudicado.
+
+
+
+```{r}
+#| label: tabla-overheads-instrumento
+#| tbl-cap: "Estimación de ingresos por Overheads 2026, por tipo de instrumento"
+
+
+overheads |>
+  group_by(instrumento) |>
+  summarise(
+    "Overhead Total" = sum(overheads, na.rm = TRUE),
+    "Overhead FACSO" = sum(overheads_facso, na.rm=TRUE), 
+    "Overhad DIP" = sum(overheads_dip, na.rm = TRUE)
+  ) |>
+  gt() |>
+  fmt_number(
+    columns = c(`Overhead Total`, `Overhead FACSO`, `Overhad DIP`),
+    decimals = 0, sep_mark = ".", dec_mark = ","   # separador de miles
+  ) |>
+  grand_summary_rows(
+    columns = c(`Overhead Total`, `Overhead FACSO`, `Overhad DIP`),
+    fns = list("Total" = ~ sum(., na.rm = TRUE)),
+    fmt = ~fmt_number(., decimals = 0, sep_mark = ".", dec_mark = ",")
+  ) |>
+   tab_style(
+    style = cell_text(weight = "bold"),             # fila Total en negrita
+    locations = cells_grand_summary(columns = everything())
+  ) |>
+  tab_options(table.font.size = px(16))
+```
+
+```{r}
+#| label: tabla-overheads-facso-departamento
+#| tbl-cap: "Distribución del Overhead FACSO por Departamento del IR (DEA 50%, Departamento IR 40%, DIP 10%)"
+
+overheads |>
+  group_by(departamento_ir) |>
+  summarise(
+    "Overhead FACSO" = sum(overheads_facso, na.rm = TRUE)
+  ) |>
+  mutate(
+    "DEA (50%)" = round(`Overhead FACSO` * 0.5, 0),
+    "Departamento IR (40%)" = round(`Overhead FACSO` * 0.4, 0),
+    "DIP (10%)" = round(`Overhead FACSO` * 0.1, 0)
+  ) |>
+  rename(`Departamento IR` = departamento_ir) |>
+  gt() |>
+  fmt_number(
+    columns = c(`Overhead FACSO`, `DEA (50%)`, `Departamento IR (40%)`, `DIP (10%)`),
+    decimals = 0, sep_mark = ".", dec_mark = ","   # separador de miles
+  ) |>
+  grand_summary_rows(
+    columns = c(`Overhead FACSO`, `DEA (50%)`, `Departamento IR (40%)`, `DIP (10%)`),
+    fns = list("Total" = ~ sum(., na.rm = TRUE)),
+    fmt = ~fmt_number(., decimals = 0, sep_mark = ".", dec_mark = ",")
+  ) |>
+  tab_style(
+    style = cell_text(weight = "bold"),             # fila Total en negrita
+    locations = cells_grand_summary(columns = everything())
+  ) |>
+  tab_options(table.font.size = px(16))
+```
+

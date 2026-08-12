@@ -17,7 +17,8 @@ execute:
 library(pacman)
 p_load(tidyverse,
        readr,
-       gt)
+       gt,
+       writexl)
 
 data <- read_csv("input/proyectos-ejecucion.csv")
 
@@ -36,9 +37,11 @@ overheads <- data |>
     anio_concurso == 2022 ~ financ_ano_4
   ),
   ppto_2025= ifelse(is.na(ppto_2025), ppto_promedio_anual, ppto_2025),
-  ppto_2025_solicitado= ppto_2025/1.2,
-  overheads = ppto_2025_solicitado*0.2,
-  overheads_dip = overheads * 0.075
+  ppto_2025 = ppto_2025-7500000,
+  ppto_2025_solicitado= round((ppto_2025/1.2),0),
+  overheads = round((ppto_2025_solicitado*0.2),0),
+  overheads_facso = round((overheads*0.75),0),
+  overheads_dip = round((overheads * 0.075),0)
 ) |>
   select(
     anio_concurso,
@@ -48,6 +51,7 @@ overheads <- data |>
     ppto_2025,
     ppto_2025_solicitado,
     overheads,
+    overheads_facso,
     overheads_dip
   )
 ```
@@ -63,7 +67,7 @@ overheads <- data |>
 #| label: tabla-overheads
 #| tbl-cap: "Estimación de ingresos por Overheads proyectos FONDECYT 2025"
 
-overheads |>
+planilla <- overheads |>
   rename(
     `Año concurso` = anio_concurso,
     `Código` = codigo_proyecto,
@@ -72,15 +76,22 @@ overheads |>
     `Ppto anual total ($)` = ppto_2025,
     "Ppto solicitado 2025 ($)" = ppto_2025_solicitado,
     `Overheads Total ($)` = overheads,
+    "Overheads FACSO ($)" = overheads_facso,
     `Overheads DIP ($)` = overheads_dip
-  ) |>
+  ) 
+
+write_xlsx(planilla, "overheads.xlsx")
+
+planilla |>
   gt() |>
   fmt_number(
-    columns = c(`Ppto anual total ($)`, "Ppto solicitado 2025 ($)", `Overheads Total ($)`, `Overheads DIP ($)`),
+    columns = c(`Ppto anual total ($)`, "Ppto solicitado 2025 ($)", `Overheads Total ($)`, "Overheads FACSO ($)",
+                `Overheads DIP ($)`),
     decimals = 0, sep_mark = ".", dec_mark = ","   # separador de miles
   ) |>
   grand_summary_rows(
-    columns = c(`Ppto anual total ($)`, `Overheads Total ($)`, "Ppto solicitado 2025 ($)", `Overheads DIP ($)`),
+    columns = c(`Ppto anual total ($)`, `Overheads Total ($)`, "Ppto solicitado 2025 ($)", "Overheads FACSO ($)",
+                `Overheads DIP ($)`),
     fns = list("Total" = ~ sum(., na.rm = TRUE)),
     fmt = ~fmt_number(., decimals = 0, sep_mark = ".", dec_mark = ",")
   ) |>
