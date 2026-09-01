@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Dirección de Investigación y Publicaciones">
-<meta name="dcterms.date" content="2026-08-12">
+<meta name="dcterms.date" content="2026-08-31">
 
 <title>Estimación Ingresos por Overheads 2026</title>
 <style>
@@ -38,6 +38,35 @@ ul.task-list li input[type="checkbox"] {
 <link href="overheads-fondecyt-2026_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="overheads-fondecyt-2026_files/libs/bootstrap/bootstrap-9e3ffae467580fdb927a41352e75a2e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -67,7 +96,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">August 12, 2026</p>
+      <p class="date">August 31, 2026</p>
     </div>
   </div>
   
@@ -81,48 +110,61 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="cálculo-y-supuestos" class="level2">
 <h2 class="anchored" data-anchor-id="cálculo-y-supuestos">Cálculo y supuestos</h2>
+<p><strong>Limitaciones y Alcance</strong></p>
+<p>Se incluye únicamente proyectos Fondecyt Regular y Fondecyt de Iniciación con Investigador/a Responsable FACSO e institución patrocinante Universidad de Chile. De tal modo, no se contabilizan los gastos de administración que podrían entrar por Coinvestigadores en proyectos Fondecyt Regular, o de Directores Alternos e Investigadores Principales en proyectos asociativos. Asimismo, se excluye a investigadores/as de la Facultad que hayan ingresado después de adjudicarse el proyecto y no hayan realizado (o esté en curso) el trámite de cambio de institución patrocinante.</p>
+<p>Por otro lado, la estimación se construyó bajo dos supuestos.</p>
 <ol type="1">
-<li><strong>Presupuesto anual 2026</strong>: se toma el monto de financiamiento del proyecto correspondiente al año 2026 según su año de concurso;</li>
+<li><p>Que todos los investigadores/as solicitaron el 20% destinado a gastos de administración y todo ese porcentaje está destinado a la Universidad de Chile.</p></li>
+<li><p>Que todos los investigadores/as solicitaron el monto máximo destinado al pago de honorarios a IR y COI, esto es, $7.500.000.</p></li>
 </ol>
+<p><strong>Presupuesto anual 2026</strong>:</p>
+<p>Se toma el monto de financiamiento del proyecto correspondiente al año 2026 según su año de concurso:</p>
 <ul>
-<li>Concurso 2026 → `año 1</li>
-<li>Concurso 2025 → `año 2</li>
-<li>Concurso 2024 → `año 3</li>
-<li>Concurso 2023 → `año 4</li>
+<li>Para concursos del año 2026, se considera el presupuesto del año 1 del proyecto</li>
+<li>Para concursos del año 2025, se considera el presupuesto del año 2 del proyecto</li>
+<li>Para concursos del año 2024, se considera el presupuesto del año 3 del proyecto</li>
+<li>Para concursos del año 2023, se considera el presupuesto del año 4 del proyecto</li>
 </ul>
-<ol start="2" type="1">
-<li><strong>Imputación cuando falta el dato</strong>: si el presupuesto 2026 queda vacío o en 0, se reemplaza por un promedio anual estimado.</li>
-</ol>
-<ul>
-<li>Al presupuesto 2026 se le resta un monto fijo de $7.500.000, correspondiente al máximo de honorarios que se puede pagar el IR. Se asume el monto máximo en todos los casos.</li>
-</ul>
-<ol start="3" type="1">
-<li><strong>Presupuesto solicitado</strong>: se divide el presupuesto ajustado por 1,2, asumiendo que ese monto registrado por SEPAVID ya incluye un 20% de overhead sobre el presupuesto solicitado. Se asume un 20% para todos los proyectos.</li>
-</ol>
-<ul>
-<li><strong>Overhead total</strong>: corresponde al 20% del presupuesto solicitado. Se asumo 20% para todos los proyectos.</li>
-<li><strong>Distribución del overhead</strong>: del overhead total, un 75% se asigna a FACSO y un 7,5% a la DIP.</li>
-<li><strong>Distribución del overhead FACSO</strong>: del overhead FACSO, un 50% se asigna a la DEA, un 40% al Departamento del IR y un 10% a la DIP.</li>
-</ul>
+<p><strong>Cálculo del Overhead Total</strong></p>
+<p>SEPAVID reporta el monto total destinado al proyecto, sumando el monto solicitado por el investigador (contando honorarios) y el overhead. De tal forma, el monto informado por SEPAVID podría expresarse así:</p>
+<p><span class="math display">\[
+S = P + O + H = 1.2P + H
+\]</span></p>
+<p>Donde P es el Presupuesto Solicitado sobre el cuál se calcula el overhead, O es el Overhead y H es el monto destinado a honorarios al investigador. Se toma como supuesto que se solicitó el porcentaje máximo de overhead (20%).</p>
+<p>Despejando la fórmula obtenemos que el valor sobre el cuál se calcular el overhead es:</p>
+<p><span class="math display">\[
+P = \frac{S-H}{1.2}
+\]</span></p>
+<p>Considerando que el Overhead es el 20% de <span class="math inline">\(P\)</span>, tenemos que:</p>
+<p><span class="math display">\[
+O = 0.2P = 0.2 * \frac{S-H}{1.2}
+\]</span> Simplificando:</p>
+<p><span class="math display">\[
+O = \frac{S-H}{6}
+\]</span></p>
+<p>Es decir, bajo los supuestos aquí establecidos, el monto total del overhead para cada proyecto es la sexta parte del valor total reportado por SEPAVID menos los honorarios del investigador.</p>
+<p><strong>Cálculo Overhead FACSO y DIP</strong></p>
+<p>Del Overhead total, un 75% corresponde a la Facultad. Este 75% se distribuye en un 50% para la Dirección Económica, un 40% para el Departamento correspondiente y un 10% para la Dirección de Investigación.</p>
+<p>En la siguiente tabla se muestra el cálculo para cada proyecto individual:</p>
 <div class="cell" data-tbl-cap="Estimación de ingresos por Overheads proyectos FONDECYT 2026">
 <div class="cell-output-display">
-<div id="emnrhosjco" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#emnrhosjco table {
+<div id="wtwqggbwww" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#wtwqggbwww table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#emnrhosjco thead, #emnrhosjco tbody, #emnrhosjco tfoot, #emnrhosjco tr, #emnrhosjco td, #emnrhosjco th {
+#wtwqggbwww thead, #wtwqggbwww tbody, #wtwqggbwww tfoot, #wtwqggbwww tr, #wtwqggbwww td, #wtwqggbwww th {
   border-style: none;
 }
 
-#emnrhosjco p {
+#wtwqggbwww p {
   margin: 0;
   padding: 0;
 }
 
-#emnrhosjco .gt_table {
+#wtwqggbwww .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -148,12 +190,12 @@ ul.task-list li input[type="checkbox"] {
   border-left-color: #D3D3D3;
 }
 
-#emnrhosjco .gt_caption {
+#wtwqggbwww .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#emnrhosjco .gt_title {
+#wtwqggbwww .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -165,7 +207,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-width: 0;
 }
 
-#emnrhosjco .gt_subtitle {
+#wtwqggbwww .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -177,7 +219,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-width: 0;
 }
 
-#emnrhosjco .gt_heading {
+#wtwqggbwww .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -189,13 +231,13 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#emnrhosjco .gt_bottom_border {
+#wtwqggbwww .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#emnrhosjco .gt_col_headings {
+#wtwqggbwww .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -210,7 +252,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#emnrhosjco .gt_col_heading {
+#wtwqggbwww .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -230,7 +272,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#emnrhosjco .gt_column_spanner_outer {
+#wtwqggbwww .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -242,15 +284,15 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 4px;
 }
 
-#emnrhosjco .gt_column_spanner_outer:first-child {
+#wtwqggbwww .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#emnrhosjco .gt_column_spanner_outer:last-child {
+#wtwqggbwww .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#emnrhosjco .gt_column_spanner {
+#wtwqggbwww .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -262,11 +304,11 @@ ul.task-list li input[type="checkbox"] {
   width: 100%;
 }
 
-#emnrhosjco .gt_spanner_row {
+#wtwqggbwww .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#emnrhosjco .gt_group_heading {
+#wtwqggbwww .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -292,7 +334,7 @@ ul.task-list li input[type="checkbox"] {
   text-align: left;
 }
 
-#emnrhosjco .gt_empty_group_heading {
+#wtwqggbwww .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -307,15 +349,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 
-#emnrhosjco .gt_from_md > :first-child {
+#wtwqggbwww .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#emnrhosjco .gt_from_md > :last-child {
+#wtwqggbwww .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#emnrhosjco .gt_row {
+#wtwqggbwww .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -334,7 +376,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#emnrhosjco .gt_stub {
+#wtwqggbwww .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -347,7 +389,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#emnrhosjco .gt_stub_row_group {
+#wtwqggbwww .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -361,15 +403,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: top;
 }
 
-#emnrhosjco .gt_row_group_first td {
+#wtwqggbwww .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#emnrhosjco .gt_row_group_first th {
+#wtwqggbwww .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#emnrhosjco .gt_summary_row {
+#wtwqggbwww .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -379,16 +421,16 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#emnrhosjco .gt_first_summary_row {
+#wtwqggbwww .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#emnrhosjco .gt_first_summary_row.thick {
+#wtwqggbwww .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#emnrhosjco .gt_last_summary_row {
+#wtwqggbwww .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -398,7 +440,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#emnrhosjco .gt_grand_summary_row {
+#wtwqggbwww .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -408,7 +450,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#emnrhosjco .gt_first_grand_summary_row {
+#wtwqggbwww .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -418,7 +460,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-color: #D3D3D3;
 }
 
-#emnrhosjco .gt_last_grand_summary_row_top {
+#wtwqggbwww .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -428,11 +470,11 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#emnrhosjco .gt_striped {
+#wtwqggbwww .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#emnrhosjco .gt_table_body {
+#wtwqggbwww .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -441,7 +483,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#emnrhosjco .gt_footnotes {
+#wtwqggbwww .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -455,7 +497,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#emnrhosjco .gt_footnote {
+#wtwqggbwww .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -464,7 +506,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#emnrhosjco .gt_sourcenotes {
+#wtwqggbwww .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -478,7 +520,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#emnrhosjco .gt_sourcenote {
+#wtwqggbwww .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -486,72 +528,72 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#emnrhosjco .gt_left {
+#wtwqggbwww .gt_left {
   text-align: left;
 }
 
-#emnrhosjco .gt_center {
+#wtwqggbwww .gt_center {
   text-align: center;
 }
 
-#emnrhosjco .gt_right {
+#wtwqggbwww .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#emnrhosjco .gt_font_normal {
+#wtwqggbwww .gt_font_normal {
   font-weight: normal;
 }
 
-#emnrhosjco .gt_font_bold {
+#wtwqggbwww .gt_font_bold {
   font-weight: bold;
 }
 
-#emnrhosjco .gt_font_italic {
+#wtwqggbwww .gt_font_italic {
   font-style: italic;
 }
 
-#emnrhosjco .gt_super {
+#wtwqggbwww .gt_super {
   font-size: 65%;
 }
 
-#emnrhosjco .gt_footnote_marks {
+#wtwqggbwww .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#emnrhosjco .gt_asterisk {
+#wtwqggbwww .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#emnrhosjco .gt_indent_1 {
+#wtwqggbwww .gt_indent_1 {
   text-indent: 5px;
 }
 
-#emnrhosjco .gt_indent_2 {
+#wtwqggbwww .gt_indent_2 {
   text-indent: 10px;
 }
 
-#emnrhosjco .gt_indent_3 {
+#wtwqggbwww .gt_indent_3 {
   text-indent: 15px;
 }
 
-#emnrhosjco .gt_indent_4 {
+#wtwqggbwww .gt_indent_4 {
   text-indent: 20px;
 }
 
-#emnrhosjco .gt_indent_5 {
+#wtwqggbwww .gt_indent_5 {
   text-indent: 25px;
 }
 
-#emnrhosjco .katex-display {
+#wtwqggbwww .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#emnrhosjco div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#wtwqggbwww div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -564,7 +606,7 @@ ul.task-list li input[type="checkbox"] {
 <th id="Año-concurso" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Año concurso</th>
 <th id="Código" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Código</th>
 <th id="IR" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">IR</th>
-<th id="departamento_ir" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">departamento_ir</th>
+<th id="Departamento-IR" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Departamento IR</th>
 <th id="Instrumento" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Instrumento</th>
 <th id="Ppto-anual-total-($)" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Ppto anual total ($)</th>
 <th id="Ppto-solicitado-2026-($)" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Ppto solicitado 2026 ($)</th>
@@ -579,9 +621,9 @@ ul.task-list li input[type="checkbox"] {
 <td class="gt_row gt_right" headers="stub_1_1 Año concurso">2024</td>
 <td class="gt_row gt_right" headers="stub_1_1 Código">11240671</td>
 <td class="gt_row gt_left" headers="stub_1_1 IR">Marcela Betancourt</td>
-<td class="gt_row gt_left" headers="stub_1_1 departamento_ir">Educación</td>
+<td class="gt_row gt_left" headers="stub_1_1 Departamento IR">Educación</td>
 <td class="gt_row gt_left" headers="stub_1_1 Instrumento">Iniciación en Investigación</td>
-<td class="gt_row gt_right" headers="stub_1_1 Ppto anual total ($)">15.648.000</td>
+<td class="gt_row gt_right" headers="stub_1_1 Ppto anual total ($)">23.148.000</td>
 <td class="gt_row gt_right" headers="stub_1_1 Ppto solicitado 2026 ($)">13.040.000</td>
 <td class="gt_row gt_right" headers="stub_1_1 Overheads Total ($)">2.608.000</td>
 <td class="gt_row gt_right" headers="stub_1_1 Overheads FACSO ($)">1.956.000</td>
@@ -592,22 +634,22 @@ ul.task-list li input[type="checkbox"] {
 <td class="gt_row gt_right" headers="stub_1_2 Año concurso">2025</td>
 <td class="gt_row gt_right" headers="stub_1_2 Código">11250627</td>
 <td class="gt_row gt_left" headers="stub_1_2 IR">Javiera Rosell</td>
-<td class="gt_row gt_left" headers="stub_1_2 departamento_ir">Psicología</td>
+<td class="gt_row gt_left" headers="stub_1_2 Departamento IR">Psicología</td>
 <td class="gt_row gt_left" headers="stub_1_2 Instrumento">Iniciación en Investigación</td>
-<td class="gt_row gt_right" headers="stub_1_2 Ppto anual total ($)">25.950.000</td>
-<td class="gt_row gt_right" headers="stub_1_2 Ppto solicitado 2026 ($)">21.625.000</td>
-<td class="gt_row gt_right" headers="stub_1_2 Overheads Total ($)">4.325.000</td>
-<td class="gt_row gt_right" headers="stub_1_2 Overheads FACSO ($)">3.243.750</td>
-<td class="gt_row gt_right" headers="stub_1_2 Overheads DIP ($)">324.375</td>
+<td class="gt_row gt_right" headers="stub_1_2 Ppto anual total ($)">30.950.000</td>
+<td class="gt_row gt_right" headers="stub_1_2 Ppto solicitado 2026 ($)">19.541.667</td>
+<td class="gt_row gt_right" headers="stub_1_2 Overheads Total ($)">3.908.333</td>
+<td class="gt_row gt_right" headers="stub_1_2 Overheads FACSO ($)">2.931.250</td>
+<td class="gt_row gt_right" headers="stub_1_2 Overheads DIP ($)">293.125</td>
 </tr>
 <tr class="odd">
 <th id="stub_1_3" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
 <td class="gt_row gt_right" headers="stub_1_3 Año concurso">2025</td>
 <td class="gt_row gt_right" headers="stub_1_3 Código">11251033</td>
 <td class="gt_row gt_left" headers="stub_1_3 IR">Javiera Cubillos</td>
-<td class="gt_row gt_left" headers="stub_1_3 departamento_ir">Trabajo Social</td>
+<td class="gt_row gt_left" headers="stub_1_3 Departamento IR">Trabajo Social</td>
 <td class="gt_row gt_left" headers="stub_1_3 Instrumento">Iniciación en Investigación</td>
-<td class="gt_row gt_right" headers="stub_1_3 Ppto anual total ($)">24.708.000</td>
+<td class="gt_row gt_right" headers="stub_1_3 Ppto anual total ($)">32.208.000</td>
 <td class="gt_row gt_right" headers="stub_1_3 Ppto solicitado 2026 ($)">20.590.000</td>
 <td class="gt_row gt_right" headers="stub_1_3 Overheads Total ($)">4.118.000</td>
 <td class="gt_row gt_right" headers="stub_1_3 Overheads FACSO ($)">3.088.500</td>
@@ -618,9 +660,9 @@ ul.task-list li input[type="checkbox"] {
 <td class="gt_row gt_right" headers="stub_1_4 Año concurso">2025</td>
 <td class="gt_row gt_right" headers="stub_1_4 Código">11251819</td>
 <td class="gt_row gt_left" headers="stub_1_4 IR">Carolina Villagra</td>
-<td class="gt_row gt_left" headers="stub_1_4 departamento_ir">Psicología</td>
+<td class="gt_row gt_left" headers="stub_1_4 Departamento IR">Psicología</td>
 <td class="gt_row gt_left" headers="stub_1_4 Instrumento">Iniciación en Investigación</td>
-<td class="gt_row gt_right" headers="stub_1_4 Ppto anual total ($)">18.474.000</td>
+<td class="gt_row gt_right" headers="stub_1_4 Ppto anual total ($)">25.974.000</td>
 <td class="gt_row gt_right" headers="stub_1_4 Ppto solicitado 2026 ($)">15.395.000</td>
 <td class="gt_row gt_right" headers="stub_1_4 Overheads Total ($)">3.079.000</td>
 <td class="gt_row gt_right" headers="stub_1_4 Overheads FACSO ($)">2.309.250</td>
@@ -631,9 +673,9 @@ ul.task-list li input[type="checkbox"] {
 <td class="gt_row gt_right" headers="stub_1_5 Año concurso">2025</td>
 <td class="gt_row gt_right" headers="stub_1_5 Código">11251909</td>
 <td class="gt_row gt_left" headers="stub_1_5 IR">Marcela Ferrer</td>
-<td class="gt_row gt_left" headers="stub_1_5 departamento_ir">Sociología</td>
+<td class="gt_row gt_left" headers="stub_1_5 Departamento IR">Sociología</td>
 <td class="gt_row gt_left" headers="stub_1_5 Instrumento">Iniciación en Investigación</td>
-<td class="gt_row gt_right" headers="stub_1_5 Ppto anual total ($)">27.246.000</td>
+<td class="gt_row gt_right" headers="stub_1_5 Ppto anual total ($)">34.746.000</td>
 <td class="gt_row gt_right" headers="stub_1_5 Ppto solicitado 2026 ($)">22.705.000</td>
 <td class="gt_row gt_right" headers="stub_1_5 Overheads Total ($)">4.541.000</td>
 <td class="gt_row gt_right" headers="stub_1_5 Overheads FACSO ($)">3.405.750</td>
@@ -644,9 +686,9 @@ ul.task-list li input[type="checkbox"] {
 <td class="gt_row gt_right" headers="stub_1_6 Año concurso">2025</td>
 <td class="gt_row gt_right" headers="stub_1_6 Código">11251924</td>
 <td class="gt_row gt_left" headers="stub_1_6 IR">Soledad Ruiz</td>
-<td class="gt_row gt_left" headers="stub_1_6 departamento_ir">Psicología</td>
+<td class="gt_row gt_left" headers="stub_1_6 Departamento IR">Psicología</td>
 <td class="gt_row gt_left" headers="stub_1_6 Instrumento">Iniciación en Investigación</td>
-<td class="gt_row gt_right" headers="stub_1_6 Ppto anual total ($)">26.822.000</td>
+<td class="gt_row gt_right" headers="stub_1_6 Ppto anual total ($)">34.322.000</td>
 <td class="gt_row gt_right" headers="stub_1_6 Ppto solicitado 2026 ($)">22.351.667</td>
 <td class="gt_row gt_right" headers="stub_1_6 Overheads Total ($)">4.470.333</td>
 <td class="gt_row gt_right" headers="stub_1_6 Overheads FACSO ($)">3.352.750</td>
@@ -657,9 +699,9 @@ ul.task-list li input[type="checkbox"] {
 <td class="gt_row gt_right" headers="stub_1_7 Año concurso">2026</td>
 <td class="gt_row gt_right" headers="stub_1_7 Código">11261836</td>
 <td class="gt_row gt_left" headers="stub_1_7 IR">Valentina Abufhele</td>
-<td class="gt_row gt_left" headers="stub_1_7 departamento_ir">Trabajo Social</td>
+<td class="gt_row gt_left" headers="stub_1_7 Departamento IR">Trabajo Social</td>
 <td class="gt_row gt_left" headers="stub_1_7 Instrumento">Iniciación en Investigación</td>
-<td class="gt_row gt_right" headers="stub_1_7 Ppto anual total ($)">26.392.000</td>
+<td class="gt_row gt_right" headers="stub_1_7 Ppto anual total ($)">33.892.000</td>
 <td class="gt_row gt_right" headers="stub_1_7 Ppto solicitado 2026 ($)">21.993.333</td>
 <td class="gt_row gt_right" headers="stub_1_7 Overheads Total ($)">4.398.667</td>
 <td class="gt_row gt_right" headers="stub_1_7 Overheads FACSO ($)">3.299.000</td>
@@ -670,9 +712,9 @@ ul.task-list li input[type="checkbox"] {
 <td class="gt_row gt_right" headers="stub_1_8 Año concurso">2023</td>
 <td class="gt_row gt_right" headers="stub_1_8 Código">1230056</td>
 <td class="gt_row gt_left" headers="stub_1_8 IR">Pablo Pérez</td>
-<td class="gt_row gt_left" headers="stub_1_8 departamento_ir">Sociología</td>
+<td class="gt_row gt_left" headers="stub_1_8 Departamento IR">Sociología</td>
 <td class="gt_row gt_left" headers="stub_1_8 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_8 Ppto anual total ($)">7.500.000</td>
+<td class="gt_row gt_right" headers="stub_1_8 Ppto anual total ($)">15.000.000</td>
 <td class="gt_row gt_right" headers="stub_1_8 Ppto solicitado 2026 ($)">6.250.000</td>
 <td class="gt_row gt_right" headers="stub_1_8 Overheads Total ($)">1.250.000</td>
 <td class="gt_row gt_right" headers="stub_1_8 Overheads FACSO ($)">937.500</td>
@@ -683,9 +725,9 @@ ul.task-list li input[type="checkbox"] {
 <td class="gt_row gt_right" headers="stub_1_9 Año concurso">2023</td>
 <td class="gt_row gt_right" headers="stub_1_9 Código">1231353</td>
 <td class="gt_row gt_left" headers="stub_1_9 IR">Fernando Campos</td>
-<td class="gt_row gt_left" headers="stub_1_9 departamento_ir">Sociología</td>
+<td class="gt_row gt_left" headers="stub_1_9 Departamento IR">Sociología</td>
 <td class="gt_row gt_left" headers="stub_1_9 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_9 Ppto anual total ($)">43.285.000</td>
+<td class="gt_row gt_right" headers="stub_1_9 Ppto anual total ($)">50.785.000</td>
 <td class="gt_row gt_right" headers="stub_1_9 Ppto solicitado 2026 ($)">36.070.833</td>
 <td class="gt_row gt_right" headers="stub_1_9 Overheads Total ($)">7.214.167</td>
 <td class="gt_row gt_right" headers="stub_1_9 Overheads FACSO ($)">5.410.625</td>
@@ -696,9 +738,9 @@ ul.task-list li input[type="checkbox"] {
 <td class="gt_row gt_right" headers="stub_1_10 Año concurso">2023</td>
 <td class="gt_row gt_right" headers="stub_1_10 Código">1231404</td>
 <td class="gt_row gt_left" headers="stub_1_10 IR">Anahi Urquiza</td>
-<td class="gt_row gt_left" headers="stub_1_10 departamento_ir">Trabajo Social</td>
+<td class="gt_row gt_left" headers="stub_1_10 Departamento IR">Trabajo Social</td>
 <td class="gt_row gt_left" headers="stub_1_10 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_10 Ppto anual total ($)">49.200.000</td>
+<td class="gt_row gt_right" headers="stub_1_10 Ppto anual total ($)">56.700.000</td>
 <td class="gt_row gt_right" headers="stub_1_10 Ppto solicitado 2026 ($)">41.000.000</td>
 <td class="gt_row gt_right" headers="stub_1_10 Overheads Total ($)">8.200.000</td>
 <td class="gt_row gt_right" headers="stub_1_10 Overheads FACSO ($)">6.150.000</td>
@@ -709,9 +751,9 @@ ul.task-list li input[type="checkbox"] {
 <td class="gt_row gt_right" headers="stub_1_11 Año concurso">2023</td>
 <td class="gt_row gt_right" headers="stub_1_11 Código">1231506</td>
 <td class="gt_row gt_left" headers="stub_1_11 IR">Loreto Leiva</td>
-<td class="gt_row gt_left" headers="stub_1_11 departamento_ir">Psicología</td>
+<td class="gt_row gt_left" headers="stub_1_11 Departamento IR">Psicología</td>
 <td class="gt_row gt_left" headers="stub_1_11 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_11 Ppto anual total ($)">53.274.000</td>
+<td class="gt_row gt_right" headers="stub_1_11 Ppto anual total ($)">60.774.000</td>
 <td class="gt_row gt_right" headers="stub_1_11 Ppto solicitado 2026 ($)">44.395.000</td>
 <td class="gt_row gt_right" headers="stub_1_11 Overheads Total ($)">8.879.000</td>
 <td class="gt_row gt_right" headers="stub_1_11 Overheads FACSO ($)">6.659.250</td>
@@ -719,129 +761,129 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <th id="stub_1_12" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
-<td class="gt_row gt_right" headers="stub_1_12 Año concurso">2024</td>
-<td class="gt_row gt_right" headers="stub_1_12 Código">1240079</td>
-<td class="gt_row gt_left" headers="stub_1_12 IR">Paulina Osorio</td>
-<td class="gt_row gt_left" headers="stub_1_12 departamento_ir">Antropología</td>
+<td class="gt_row gt_right" headers="stub_1_12 Año concurso">2023</td>
+<td class="gt_row gt_right" headers="stub_1_12 Código">1231815</td>
+<td class="gt_row gt_left" headers="stub_1_12 IR">Mauricio Moraga</td>
+<td class="gt_row gt_left" headers="stub_1_12 Departamento IR">Antropología</td>
 <td class="gt_row gt_left" headers="stub_1_12 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_12 Ppto anual total ($)">22.300.000</td>
-<td class="gt_row gt_right" headers="stub_1_12 Ppto solicitado 2026 ($)">18.583.333</td>
-<td class="gt_row gt_right" headers="stub_1_12 Overheads Total ($)">3.716.667</td>
-<td class="gt_row gt_right" headers="stub_1_12 Overheads FACSO ($)">2.787.500</td>
-<td class="gt_row gt_right" headers="stub_1_12 Overheads DIP ($)">278.750</td>
+<td class="gt_row gt_right" headers="stub_1_12 Ppto anual total ($)">46.755.000</td>
+<td class="gt_row gt_right" headers="stub_1_12 Ppto solicitado 2026 ($)">32.712.500</td>
+<td class="gt_row gt_right" headers="stub_1_12 Overheads Total ($)">6.542.500</td>
+<td class="gt_row gt_right" headers="stub_1_12 Overheads FACSO ($)">4.906.875</td>
+<td class="gt_row gt_right" headers="stub_1_12 Overheads DIP ($)">490.688</td>
 </tr>
 <tr class="odd">
 <th id="stub_1_13" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
 <td class="gt_row gt_right" headers="stub_1_13 Año concurso">2024</td>
-<td class="gt_row gt_right" headers="stub_1_13 Código">1240100</td>
-<td class="gt_row gt_left" headers="stub_1_13 IR">Gianinna Muñoz</td>
-<td class="gt_row gt_left" headers="stub_1_13 departamento_ir">Trabajo Social</td>
+<td class="gt_row gt_right" headers="stub_1_13 Código">1240079</td>
+<td class="gt_row gt_left" headers="stub_1_13 IR">Paulina Osorio</td>
+<td class="gt_row gt_left" headers="stub_1_13 Departamento IR">Antropología</td>
 <td class="gt_row gt_left" headers="stub_1_13 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_13 Ppto anual total ($)">56.137.000</td>
-<td class="gt_row gt_right" headers="stub_1_13 Ppto solicitado 2026 ($)">46.780.833</td>
-<td class="gt_row gt_right" headers="stub_1_13 Overheads Total ($)">9.356.167</td>
-<td class="gt_row gt_right" headers="stub_1_13 Overheads FACSO ($)">7.017.125</td>
-<td class="gt_row gt_right" headers="stub_1_13 Overheads DIP ($)">701.713</td>
+<td class="gt_row gt_right" headers="stub_1_13 Ppto anual total ($)">29.800.000</td>
+<td class="gt_row gt_right" headers="stub_1_13 Ppto solicitado 2026 ($)">18.583.333</td>
+<td class="gt_row gt_right" headers="stub_1_13 Overheads Total ($)">3.716.667</td>
+<td class="gt_row gt_right" headers="stub_1_13 Overheads FACSO ($)">2.787.500</td>
+<td class="gt_row gt_right" headers="stub_1_13 Overheads DIP ($)">278.750</td>
 </tr>
 <tr class="even">
 <th id="stub_1_14" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
 <td class="gt_row gt_right" headers="stub_1_14 Año concurso">2024</td>
-<td class="gt_row gt_right" headers="stub_1_14 Código">1240125</td>
-<td class="gt_row gt_left" headers="stub_1_14 IR">María Emilia Tijoux</td>
-<td class="gt_row gt_left" headers="stub_1_14 departamento_ir">Sociología</td>
+<td class="gt_row gt_right" headers="stub_1_14 Código">1240100</td>
+<td class="gt_row gt_left" headers="stub_1_14 IR">Gianinna Muñoz</td>
+<td class="gt_row gt_left" headers="stub_1_14 Departamento IR">Trabajo Social</td>
 <td class="gt_row gt_left" headers="stub_1_14 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_14 Ppto anual total ($)">58.012.000</td>
-<td class="gt_row gt_right" headers="stub_1_14 Ppto solicitado 2026 ($)">48.343.333</td>
-<td class="gt_row gt_right" headers="stub_1_14 Overheads Total ($)">9.668.667</td>
-<td class="gt_row gt_right" headers="stub_1_14 Overheads FACSO ($)">7.251.500</td>
-<td class="gt_row gt_right" headers="stub_1_14 Overheads DIP ($)">725.150</td>
+<td class="gt_row gt_right" headers="stub_1_14 Ppto anual total ($)">63.637.000</td>
+<td class="gt_row gt_right" headers="stub_1_14 Ppto solicitado 2026 ($)">46.780.833</td>
+<td class="gt_row gt_right" headers="stub_1_14 Overheads Total ($)">9.356.167</td>
+<td class="gt_row gt_right" headers="stub_1_14 Overheads FACSO ($)">7.017.125</td>
+<td class="gt_row gt_right" headers="stub_1_14 Overheads DIP ($)">701.713</td>
 </tr>
 <tr class="odd">
 <th id="stub_1_15" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
 <td class="gt_row gt_right" headers="stub_1_15 Año concurso">2024</td>
-<td class="gt_row gt_right" headers="stub_1_15 Código">1240155</td>
-<td class="gt_row gt_left" headers="stub_1_15 IR">Rodrigo Cornejo</td>
-<td class="gt_row gt_left" headers="stub_1_15 departamento_ir">Psicología</td>
+<td class="gt_row gt_right" headers="stub_1_15 Código">1240125</td>
+<td class="gt_row gt_left" headers="stub_1_15 IR">María Emilia Tijoux</td>
+<td class="gt_row gt_left" headers="stub_1_15 Departamento IR">Sociología</td>
 <td class="gt_row gt_left" headers="stub_1_15 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_15 Ppto anual total ($)">57.289.000</td>
-<td class="gt_row gt_right" headers="stub_1_15 Ppto solicitado 2026 ($)">47.740.833</td>
-<td class="gt_row gt_right" headers="stub_1_15 Overheads Total ($)">9.548.167</td>
-<td class="gt_row gt_right" headers="stub_1_15 Overheads FACSO ($)">7.161.125</td>
-<td class="gt_row gt_right" headers="stub_1_15 Overheads DIP ($)">716.113</td>
+<td class="gt_row gt_right" headers="stub_1_15 Ppto anual total ($)">65.512.000</td>
+<td class="gt_row gt_right" headers="stub_1_15 Ppto solicitado 2026 ($)">48.343.333</td>
+<td class="gt_row gt_right" headers="stub_1_15 Overheads Total ($)">9.668.667</td>
+<td class="gt_row gt_right" headers="stub_1_15 Overheads FACSO ($)">7.251.500</td>
+<td class="gt_row gt_right" headers="stub_1_15 Overheads DIP ($)">725.150</td>
 </tr>
 <tr class="even">
 <th id="stub_1_16" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
 <td class="gt_row gt_right" headers="stub_1_16 Año concurso">2024</td>
-<td class="gt_row gt_right" headers="stub_1_16 Código">1240683</td>
-<td class="gt_row gt_left" headers="stub_1_16 IR">Daniela Thumala</td>
-<td class="gt_row gt_left" headers="stub_1_16 departamento_ir">Psicología</td>
+<td class="gt_row gt_right" headers="stub_1_16 Código">1240155</td>
+<td class="gt_row gt_left" headers="stub_1_16 IR">Rodrigo Cornejo</td>
+<td class="gt_row gt_left" headers="stub_1_16 Departamento IR">Psicología</td>
 <td class="gt_row gt_left" headers="stub_1_16 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_16 Ppto anual total ($)">55.332.000</td>
-<td class="gt_row gt_right" headers="stub_1_16 Ppto solicitado 2026 ($)">46.110.000</td>
-<td class="gt_row gt_right" headers="stub_1_16 Overheads Total ($)">9.222.000</td>
-<td class="gt_row gt_right" headers="stub_1_16 Overheads FACSO ($)">6.916.500</td>
-<td class="gt_row gt_right" headers="stub_1_16 Overheads DIP ($)">691.650</td>
+<td class="gt_row gt_right" headers="stub_1_16 Ppto anual total ($)">64.789.000</td>
+<td class="gt_row gt_right" headers="stub_1_16 Ppto solicitado 2026 ($)">47.740.833</td>
+<td class="gt_row gt_right" headers="stub_1_16 Overheads Total ($)">9.548.167</td>
+<td class="gt_row gt_right" headers="stub_1_16 Overheads FACSO ($)">7.161.125</td>
+<td class="gt_row gt_right" headers="stub_1_16 Overheads DIP ($)">716.113</td>
 </tr>
 <tr class="odd">
 <th id="stub_1_17" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
 <td class="gt_row gt_right" headers="stub_1_17 Año concurso">2024</td>
-<td class="gt_row gt_right" headers="stub_1_17 Código">1240805</td>
-<td class="gt_row gt_left" headers="stub_1_17 IR">Kornelius Kupczik</td>
-<td class="gt_row gt_left" headers="stub_1_17 departamento_ir">Antropología</td>
+<td class="gt_row gt_right" headers="stub_1_17 Código">1240683</td>
+<td class="gt_row gt_left" headers="stub_1_17 IR">Daniela Thumala</td>
+<td class="gt_row gt_left" headers="stub_1_17 Departamento IR">Psicología</td>
 <td class="gt_row gt_left" headers="stub_1_17 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_17 Ppto anual total ($)">54.440.000</td>
-<td class="gt_row gt_right" headers="stub_1_17 Ppto solicitado 2026 ($)">45.366.667</td>
-<td class="gt_row gt_right" headers="stub_1_17 Overheads Total ($)">9.073.333</td>
-<td class="gt_row gt_right" headers="stub_1_17 Overheads FACSO ($)">6.805.000</td>
-<td class="gt_row gt_right" headers="stub_1_17 Overheads DIP ($)">680.500</td>
+<td class="gt_row gt_right" headers="stub_1_17 Ppto anual total ($)">62.832.000</td>
+<td class="gt_row gt_right" headers="stub_1_17 Ppto solicitado 2026 ($)">46.110.000</td>
+<td class="gt_row gt_right" headers="stub_1_17 Overheads Total ($)">9.222.000</td>
+<td class="gt_row gt_right" headers="stub_1_17 Overheads FACSO ($)">6.916.500</td>
+<td class="gt_row gt_right" headers="stub_1_17 Overheads DIP ($)">691.650</td>
 </tr>
 <tr class="even">
 <th id="stub_1_18" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
 <td class="gt_row gt_right" headers="stub_1_18 Año concurso">2024</td>
-<td class="gt_row gt_right" headers="stub_1_18 Código">1240840</td>
-<td class="gt_row gt_left" headers="stub_1_18 IR">María Sol Anigstein</td>
-<td class="gt_row gt_left" headers="stub_1_18 departamento_ir">Antropología</td>
+<td class="gt_row gt_right" headers="stub_1_18 Código">1240805</td>
+<td class="gt_row gt_left" headers="stub_1_18 IR">Kornelius Kupczik</td>
+<td class="gt_row gt_left" headers="stub_1_18 Departamento IR">Antropología</td>
 <td class="gt_row gt_left" headers="stub_1_18 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_18 Ppto anual total ($)">27.043.000</td>
-<td class="gt_row gt_right" headers="stub_1_18 Ppto solicitado 2026 ($)">22.535.833</td>
-<td class="gt_row gt_right" headers="stub_1_18 Overheads Total ($)">4.507.167</td>
-<td class="gt_row gt_right" headers="stub_1_18 Overheads FACSO ($)">3.380.375</td>
-<td class="gt_row gt_right" headers="stub_1_18 Overheads DIP ($)">338.038</td>
+<td class="gt_row gt_right" headers="stub_1_18 Ppto anual total ($)">61.940.000</td>
+<td class="gt_row gt_right" headers="stub_1_18 Ppto solicitado 2026 ($)">45.366.667</td>
+<td class="gt_row gt_right" headers="stub_1_18 Overheads Total ($)">9.073.333</td>
+<td class="gt_row gt_right" headers="stub_1_18 Overheads FACSO ($)">6.805.000</td>
+<td class="gt_row gt_right" headers="stub_1_18 Overheads DIP ($)">680.500</td>
 </tr>
 <tr class="odd">
 <th id="stub_1_19" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
 <td class="gt_row gt_right" headers="stub_1_19 Año concurso">2024</td>
-<td class="gt_row gt_right" headers="stub_1_19 Código">1240863</td>
-<td class="gt_row gt_left" headers="stub_1_19 IR">Susan Sanhueza</td>
-<td class="gt_row gt_left" headers="stub_1_19 departamento_ir">Educación</td>
+<td class="gt_row gt_right" headers="stub_1_19 Código">1240840</td>
+<td class="gt_row gt_left" headers="stub_1_19 IR">María Sol Anigstein</td>
+<td class="gt_row gt_left" headers="stub_1_19 Departamento IR">Antropología</td>
 <td class="gt_row gt_left" headers="stub_1_19 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_19 Ppto anual total ($)">56.816.000</td>
-<td class="gt_row gt_right" headers="stub_1_19 Ppto solicitado 2026 ($)">47.346.667</td>
-<td class="gt_row gt_right" headers="stub_1_19 Overheads Total ($)">9.469.333</td>
-<td class="gt_row gt_right" headers="stub_1_19 Overheads FACSO ($)">7.102.000</td>
-<td class="gt_row gt_right" headers="stub_1_19 Overheads DIP ($)">710.200</td>
+<td class="gt_row gt_right" headers="stub_1_19 Ppto anual total ($)">34.543.000</td>
+<td class="gt_row gt_right" headers="stub_1_19 Ppto solicitado 2026 ($)">22.535.833</td>
+<td class="gt_row gt_right" headers="stub_1_19 Overheads Total ($)">4.507.167</td>
+<td class="gt_row gt_right" headers="stub_1_19 Overheads FACSO ($)">3.380.375</td>
+<td class="gt_row gt_right" headers="stub_1_19 Overheads DIP ($)">338.038</td>
 </tr>
 <tr class="even">
 <th id="stub_1_20" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
 <td class="gt_row gt_right" headers="stub_1_20 Año concurso">2024</td>
-<td class="gt_row gt_right" headers="stub_1_20 Código">1240922</td>
-<td class="gt_row gt_left" headers="stub_1_20 IR">Daniel Miranda</td>
-<td class="gt_row gt_left" headers="stub_1_20 departamento_ir">Psicología</td>
+<td class="gt_row gt_right" headers="stub_1_20 Código">1240863</td>
+<td class="gt_row gt_left" headers="stub_1_20 IR">Susan Sanhueza</td>
+<td class="gt_row gt_left" headers="stub_1_20 Departamento IR">Educación</td>
 <td class="gt_row gt_left" headers="stub_1_20 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_20 Ppto anual total ($)">49.887.500</td>
-<td class="gt_row gt_right" headers="stub_1_20 Ppto solicitado 2026 ($)">41.572.917</td>
-<td class="gt_row gt_right" headers="stub_1_20 Overheads Total ($)">8.314.583</td>
-<td class="gt_row gt_right" headers="stub_1_20 Overheads FACSO ($)">6.235.937</td>
-<td class="gt_row gt_right" headers="stub_1_20 Overheads DIP ($)">623.594</td>
+<td class="gt_row gt_right" headers="stub_1_20 Ppto anual total ($)">64.316.000</td>
+<td class="gt_row gt_right" headers="stub_1_20 Ppto solicitado 2026 ($)">47.346.667</td>
+<td class="gt_row gt_right" headers="stub_1_20 Overheads Total ($)">9.469.333</td>
+<td class="gt_row gt_right" headers="stub_1_20 Overheads FACSO ($)">7.102.000</td>
+<td class="gt_row gt_right" headers="stub_1_20 Overheads DIP ($)">710.200</td>
 </tr>
 <tr class="odd">
 <th id="stub_1_21" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
 <td class="gt_row gt_right" headers="stub_1_21 Año concurso">2024</td>
 <td class="gt_row gt_right" headers="stub_1_21 Código">1240960</td>
 <td class="gt_row gt_left" headers="stub_1_21 IR">Sofía Donoso</td>
-<td class="gt_row gt_left" headers="stub_1_21 departamento_ir">Sociología</td>
+<td class="gt_row gt_left" headers="stub_1_21 Departamento IR">Sociología</td>
 <td class="gt_row gt_left" headers="stub_1_21 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_21 Ppto anual total ($)">30.942.000</td>
+<td class="gt_row gt_right" headers="stub_1_21 Ppto anual total ($)">38.442.000</td>
 <td class="gt_row gt_right" headers="stub_1_21 Ppto solicitado 2026 ($)">25.785.000</td>
 <td class="gt_row gt_right" headers="stub_1_21 Overheads Total ($)">5.157.000</td>
 <td class="gt_row gt_right" headers="stub_1_21 Overheads FACSO ($)">3.867.750</td>
@@ -852,9 +894,9 @@ ul.task-list li input[type="checkbox"] {
 <td class="gt_row gt_right" headers="stub_1_22 Año concurso">2025</td>
 <td class="gt_row gt_right" headers="stub_1_22 Código">1250064</td>
 <td class="gt_row gt_left" headers="stub_1_22 IR">Mahia Saracostti</td>
-<td class="gt_row gt_left" headers="stub_1_22 departamento_ir">Trabajo Social</td>
+<td class="gt_row gt_left" headers="stub_1_22 Departamento IR">Trabajo Social</td>
 <td class="gt_row gt_left" headers="stub_1_22 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_22 Ppto anual total ($)">59.120.000</td>
+<td class="gt_row gt_right" headers="stub_1_22 Ppto anual total ($)">66.620.000</td>
 <td class="gt_row gt_right" headers="stub_1_22 Ppto solicitado 2026 ($)">49.266.667</td>
 <td class="gt_row gt_right" headers="stub_1_22 Overheads Total ($)">9.853.333</td>
 <td class="gt_row gt_right" headers="stub_1_22 Overheads FACSO ($)">7.390.000</td>
@@ -865,9 +907,9 @@ ul.task-list li input[type="checkbox"] {
 <td class="gt_row gt_right" headers="stub_1_23 Año concurso">2025</td>
 <td class="gt_row gt_right" headers="stub_1_23 Código">1250185</td>
 <td class="gt_row gt_left" headers="stub_1_23 IR">Carolina Belmar</td>
-<td class="gt_row gt_left" headers="stub_1_23 departamento_ir">Antropología</td>
+<td class="gt_row gt_left" headers="stub_1_23 Departamento IR">Antropología</td>
 <td class="gt_row gt_left" headers="stub_1_23 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_23 Ppto anual total ($)">58.640.000</td>
+<td class="gt_row gt_right" headers="stub_1_23 Ppto anual total ($)">66.140.000</td>
 <td class="gt_row gt_right" headers="stub_1_23 Ppto solicitado 2026 ($)">48.866.667</td>
 <td class="gt_row gt_right" headers="stub_1_23 Overheads Total ($)">9.773.333</td>
 <td class="gt_row gt_right" headers="stub_1_23 Overheads FACSO ($)">7.330.000</td>
@@ -878,9 +920,9 @@ ul.task-list li input[type="checkbox"] {
 <td class="gt_row gt_right" headers="stub_1_24 Año concurso">2025</td>
 <td class="gt_row gt_right" headers="stub_1_24 Código">1250518</td>
 <td class="gt_row gt_left" headers="stub_1_24 IR">Juan Carlos Castillo</td>
-<td class="gt_row gt_left" headers="stub_1_24 departamento_ir">Sociología</td>
+<td class="gt_row gt_left" headers="stub_1_24 Departamento IR">Sociología</td>
 <td class="gt_row gt_left" headers="stub_1_24 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_24 Ppto anual total ($)">57.240.000</td>
+<td class="gt_row gt_right" headers="stub_1_24 Ppto anual total ($)">64.740.000</td>
 <td class="gt_row gt_right" headers="stub_1_24 Ppto solicitado 2026 ($)">47.700.000</td>
 <td class="gt_row gt_right" headers="stub_1_24 Overheads Total ($)">9.540.000</td>
 <td class="gt_row gt_right" headers="stub_1_24 Overheads FACSO ($)">7.155.000</td>
@@ -891,9 +933,9 @@ ul.task-list li input[type="checkbox"] {
 <td class="gt_row gt_right" headers="stub_1_25 Año concurso">2025</td>
 <td class="gt_row gt_right" headers="stub_1_25 Código">1250996</td>
 <td class="gt_row gt_left" headers="stub_1_25 IR">Camilo Sembler</td>
-<td class="gt_row gt_left" headers="stub_1_25 departamento_ir">Sociología</td>
+<td class="gt_row gt_left" headers="stub_1_25 Departamento IR">Sociología</td>
 <td class="gt_row gt_left" headers="stub_1_25 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_25 Ppto anual total ($)">48.768.000</td>
+<td class="gt_row gt_right" headers="stub_1_25 Ppto anual total ($)">56.268.000</td>
 <td class="gt_row gt_right" headers="stub_1_25 Ppto solicitado 2026 ($)">40.640.000</td>
 <td class="gt_row gt_right" headers="stub_1_25 Overheads Total ($)">8.128.000</td>
 <td class="gt_row gt_right" headers="stub_1_25 Overheads FACSO ($)">6.096.000</td>
@@ -904,9 +946,9 @@ ul.task-list li input[type="checkbox"] {
 <td class="gt_row gt_right" headers="stub_1_26 Año concurso">2025</td>
 <td class="gt_row gt_right" headers="stub_1_26 Código">1251233</td>
 <td class="gt_row gt_left" headers="stub_1_26 IR">Andrés Troncoso</td>
-<td class="gt_row gt_left" headers="stub_1_26 departamento_ir">Antropología</td>
+<td class="gt_row gt_left" headers="stub_1_26 Departamento IR">Antropología</td>
 <td class="gt_row gt_left" headers="stub_1_26 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_26 Ppto anual total ($)">55.848.000</td>
+<td class="gt_row gt_right" headers="stub_1_26 Ppto anual total ($)">63.348.000</td>
 <td class="gt_row gt_right" headers="stub_1_26 Ppto solicitado 2026 ($)">46.540.000</td>
 <td class="gt_row gt_right" headers="stub_1_26 Overheads Total ($)">9.308.000</td>
 <td class="gt_row gt_right" headers="stub_1_26 Overheads FACSO ($)">6.981.000</td>
@@ -917,9 +959,9 @@ ul.task-list li input[type="checkbox"] {
 <td class="gt_row gt_right" headers="stub_1_27 Año concurso">2025</td>
 <td class="gt_row gt_right" headers="stub_1_27 Código">1251297</td>
 <td class="gt_row gt_left" headers="stub_1_27 IR">Sergio Toro</td>
-<td class="gt_row gt_left" headers="stub_1_27 departamento_ir">Educación</td>
+<td class="gt_row gt_left" headers="stub_1_27 Departamento IR">Educación</td>
 <td class="gt_row gt_left" headers="stub_1_27 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_27 Ppto anual total ($)">46.200.000</td>
+<td class="gt_row gt_right" headers="stub_1_27 Ppto anual total ($)">53.700.000</td>
 <td class="gt_row gt_right" headers="stub_1_27 Ppto solicitado 2026 ($)">38.500.000</td>
 <td class="gt_row gt_right" headers="stub_1_27 Overheads Total ($)">7.700.000</td>
 <td class="gt_row gt_right" headers="stub_1_27 Overheads FACSO ($)">5.775.000</td>
@@ -930,9 +972,9 @@ ul.task-list li input[type="checkbox"] {
 <td class="gt_row gt_right" headers="stub_1_28 Año concurso">2025</td>
 <td class="gt_row gt_right" headers="stub_1_28 Código">1251388</td>
 <td class="gt_row gt_left" headers="stub_1_28 IR">Vanetza Quezada</td>
-<td class="gt_row gt_left" headers="stub_1_28 departamento_ir">Psicología</td>
+<td class="gt_row gt_left" headers="stub_1_28 Departamento IR">Psicología</td>
 <td class="gt_row gt_left" headers="stub_1_28 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_28 Ppto anual total ($)">50.660.000</td>
+<td class="gt_row gt_right" headers="stub_1_28 Ppto anual total ($)">58.160.000</td>
 <td class="gt_row gt_right" headers="stub_1_28 Ppto solicitado 2026 ($)">42.216.667</td>
 <td class="gt_row gt_right" headers="stub_1_28 Overheads Total ($)">8.443.333</td>
 <td class="gt_row gt_right" headers="stub_1_28 Overheads FACSO ($)">6.332.500</td>
@@ -943,9 +985,9 @@ ul.task-list li input[type="checkbox"] {
 <td class="gt_row gt_right" headers="stub_1_29 Año concurso">2025</td>
 <td class="gt_row gt_right" headers="stub_1_29 Código">1251621</td>
 <td class="gt_row gt_left" headers="stub_1_29 IR">Nicolás Angelcos</td>
-<td class="gt_row gt_left" headers="stub_1_29 departamento_ir">Sociología</td>
+<td class="gt_row gt_left" headers="stub_1_29 Departamento IR">Sociología</td>
 <td class="gt_row gt_left" headers="stub_1_29 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_29 Ppto anual total ($)">35.848.000</td>
+<td class="gt_row gt_right" headers="stub_1_29 Ppto anual total ($)">43.348.000</td>
 <td class="gt_row gt_right" headers="stub_1_29 Ppto solicitado 2026 ($)">29.873.333</td>
 <td class="gt_row gt_right" headers="stub_1_29 Overheads Total ($)">5.974.667</td>
 <td class="gt_row gt_right" headers="stub_1_29 Overheads FACSO ($)">4.481.000</td>
@@ -956,9 +998,9 @@ ul.task-list li input[type="checkbox"] {
 <td class="gt_row gt_right" headers="stub_1_30 Año concurso">2026</td>
 <td class="gt_row gt_right" headers="stub_1_30 Código">1261123</td>
 <td class="gt_row gt_left" headers="stub_1_30 IR">Gabriela Rubilar</td>
-<td class="gt_row gt_left" headers="stub_1_30 departamento_ir">Trabajo Social</td>
+<td class="gt_row gt_left" headers="stub_1_30 Departamento IR">Trabajo Social</td>
 <td class="gt_row gt_left" headers="stub_1_30 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_30 Ppto anual total ($)">30.540.000</td>
+<td class="gt_row gt_right" headers="stub_1_30 Ppto anual total ($)">38.040.000</td>
 <td class="gt_row gt_right" headers="stub_1_30 Ppto solicitado 2026 ($)">25.450.000</td>
 <td class="gt_row gt_right" headers="stub_1_30 Overheads Total ($)">5.090.000</td>
 <td class="gt_row gt_right" headers="stub_1_30 Overheads FACSO ($)">3.817.500</td>
@@ -969,9 +1011,9 @@ ul.task-list li input[type="checkbox"] {
 <td class="gt_row gt_right" headers="stub_1_31 Año concurso">2026</td>
 <td class="gt_row gt_right" headers="stub_1_31 Código">1261505</td>
 <td class="gt_row gt_left" headers="stub_1_31 IR">Francisco Araos</td>
-<td class="gt_row gt_left" headers="stub_1_31 departamento_ir">Antropología</td>
+<td class="gt_row gt_left" headers="stub_1_31 Departamento IR">Antropología</td>
 <td class="gt_row gt_left" headers="stub_1_31 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_31 Ppto anual total ($)">49.900.000</td>
+<td class="gt_row gt_right" headers="stub_1_31 Ppto anual total ($)">57.400.000</td>
 <td class="gt_row gt_right" headers="stub_1_31 Ppto solicitado 2026 ($)">41.583.333</td>
 <td class="gt_row gt_right" headers="stub_1_31 Overheads Total ($)">8.316.667</td>
 <td class="gt_row gt_right" headers="stub_1_31 Overheads FACSO ($)">6.237.500</td>
@@ -982,9 +1024,9 @@ ul.task-list li input[type="checkbox"] {
 <td class="gt_row gt_right" headers="stub_1_32 Año concurso">2026</td>
 <td class="gt_row gt_right" headers="stub_1_32 Código">1261806</td>
 <td class="gt_row gt_left" headers="stub_1_32 IR">Gonzalo Durán</td>
-<td class="gt_row gt_left" headers="stub_1_32 departamento_ir">Trabajo Social</td>
+<td class="gt_row gt_left" headers="stub_1_32 Departamento IR">Trabajo Social</td>
 <td class="gt_row gt_left" headers="stub_1_32 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_32 Ppto anual total ($)">51.288.000</td>
+<td class="gt_row gt_right" headers="stub_1_32 Ppto anual total ($)">58.788.000</td>
 <td class="gt_row gt_right" headers="stub_1_32 Ppto solicitado 2026 ($)">42.740.000</td>
 <td class="gt_row gt_right" headers="stub_1_32 Overheads Total ($)">8.548.000</td>
 <td class="gt_row gt_right" headers="stub_1_32 Overheads FACSO ($)">6.411.000</td>
@@ -995,9 +1037,9 @@ ul.task-list li input[type="checkbox"] {
 <td class="gt_row gt_right" headers="stub_1_33 Año concurso">2026</td>
 <td class="gt_row gt_right" headers="stub_1_33 Código">1262125</td>
 <td class="gt_row gt_left" headers="stub_1_33 IR">Cynthia Adlerstein</td>
-<td class="gt_row gt_left" headers="stub_1_33 departamento_ir">Educación</td>
+<td class="gt_row gt_left" headers="stub_1_33 Departamento IR">Educación</td>
 <td class="gt_row gt_left" headers="stub_1_33 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_33 Ppto anual total ($)">54.784.000</td>
+<td class="gt_row gt_right" headers="stub_1_33 Ppto anual total ($)">62.284.000</td>
 <td class="gt_row gt_right" headers="stub_1_33 Ppto solicitado 2026 ($)">45.653.333</td>
 <td class="gt_row gt_right" headers="stub_1_33 Overheads Total ($)">9.130.667</td>
 <td class="gt_row gt_right" headers="stub_1_33 Overheads FACSO ($)">6.848.000</td>
@@ -1008,9 +1050,9 @@ ul.task-list li input[type="checkbox"] {
 <td class="gt_row gt_right" headers="stub_1_34 Año concurso">2026</td>
 <td class="gt_row gt_right" headers="stub_1_34 Código">1262149</td>
 <td class="gt_row gt_left" headers="stub_1_34 IR">Isabel Piper</td>
-<td class="gt_row gt_left" headers="stub_1_34 departamento_ir">Psicología</td>
+<td class="gt_row gt_left" headers="stub_1_34 Departamento IR">Psicología</td>
 <td class="gt_row gt_left" headers="stub_1_34 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_34 Ppto anual total ($)">58.682.000</td>
+<td class="gt_row gt_right" headers="stub_1_34 Ppto anual total ($)">66.182.000</td>
 <td class="gt_row gt_right" headers="stub_1_34 Ppto solicitado 2026 ($)">48.901.667</td>
 <td class="gt_row gt_right" headers="stub_1_34 Overheads Total ($)">9.780.333</td>
 <td class="gt_row gt_right" headers="stub_1_34 Overheads FACSO ($)">7.335.250</td>
@@ -1021,9 +1063,9 @@ ul.task-list li input[type="checkbox"] {
 <td class="gt_row gt_right" headers="stub_1_35 Año concurso">2026</td>
 <td class="gt_row gt_right" headers="stub_1_35 Código">1262177</td>
 <td class="gt_row gt_left" headers="stub_1_35 IR">Alejandro Marambio</td>
-<td class="gt_row gt_left" headers="stub_1_35 departamento_ir">Trabajo Social</td>
+<td class="gt_row gt_left" headers="stub_1_35 Departamento IR">Trabajo Social</td>
 <td class="gt_row gt_left" headers="stub_1_35 Instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_35 Ppto anual total ($)">46.560.000</td>
+<td class="gt_row gt_right" headers="stub_1_35 Ppto anual total ($)">54.060.000</td>
 <td class="gt_row gt_right" headers="stub_1_35 Ppto solicitado 2026 ($)">38.800.000</td>
 <td class="gt_row gt_right" headers="stub_1_35 Overheads Total ($)">7.760.000</td>
 <td class="gt_row gt_right" headers="stub_1_35 Overheads FACSO ($)">5.820.000</td>
@@ -1034,13 +1076,13 @@ ul.task-list li input[type="checkbox"] {
 <td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 Año concurso" style="font-weight: bold">—</td>
 <td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 Código" style="font-weight: bold">—</td>
 <td class="gt_row gt_left gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 IR" style="font-weight: bold">—</td>
-<td class="gt_row gt_left gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 departamento_ir" style="font-weight: bold">—</td>
+<td class="gt_row gt_left gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 Departamento IR" style="font-weight: bold">—</td>
 <td class="gt_row gt_left gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 Instrumento" style="font-weight: bold">—</td>
-<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 Ppto anual total ($)" style="font-weight: bold">1.490.775.500</td>
-<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 Ppto solicitado 2026 ($)" style="font-weight: bold">1.242.312.916</td>
-<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 Overheads Total ($)" style="font-weight: bold">248.462.584</td>
-<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 Overheads FACSO ($)" style="font-weight: bold">186.346.937</td>
-<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 Overheads DIP ($)" style="font-weight: bold">18.634.696</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 Ppto anual total ($)" style="font-weight: bold">1.740.143.000</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 Ppto solicitado 2026 ($)" style="font-weight: bold">1.231.369.166</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 Overheads Total ($)" style="font-weight: bold">246.273.833</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 Overheads FACSO ($)" style="font-weight: bold">184.705.375</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 Overheads DIP ($)" style="font-weight: bold">18.470.538</td>
 </tr>
 </tbody>
 </table>
@@ -1051,23 +1093,23 @@ ul.task-list li input[type="checkbox"] {
 <p>Nota. El presupuesto anual de los proyectos con presupuesto imputado corresponde a una imputación a partir del monto total adjudicado.</p>
 <div class="cell" data-tbl-cap="Estimación de ingresos por Overheads 2026, por tipo de instrumento">
 <div class="cell-output-display">
-<div id="jhjkdmvuit" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#jhjkdmvuit table {
+<div id="navefqnpqq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#navefqnpqq table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#jhjkdmvuit thead, #jhjkdmvuit tbody, #jhjkdmvuit tfoot, #jhjkdmvuit tr, #jhjkdmvuit td, #jhjkdmvuit th {
+#navefqnpqq thead, #navefqnpqq tbody, #navefqnpqq tfoot, #navefqnpqq tr, #navefqnpqq td, #navefqnpqq th {
   border-style: none;
 }
 
-#jhjkdmvuit p {
+#navefqnpqq p {
   margin: 0;
   padding: 0;
 }
 
-#jhjkdmvuit .gt_table {
+#navefqnpqq .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1093,12 +1135,12 @@ ul.task-list li input[type="checkbox"] {
   border-left-color: #D3D3D3;
 }
 
-#jhjkdmvuit .gt_caption {
+#navefqnpqq .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#jhjkdmvuit .gt_title {
+#navefqnpqq .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1110,7 +1152,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-width: 0;
 }
 
-#jhjkdmvuit .gt_subtitle {
+#navefqnpqq .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1122,7 +1164,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-width: 0;
 }
 
-#jhjkdmvuit .gt_heading {
+#navefqnpqq .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1134,13 +1176,13 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#jhjkdmvuit .gt_bottom_border {
+#navefqnpqq .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#jhjkdmvuit .gt_col_headings {
+#navefqnpqq .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1155,7 +1197,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#jhjkdmvuit .gt_col_heading {
+#navefqnpqq .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1175,7 +1217,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#jhjkdmvuit .gt_column_spanner_outer {
+#navefqnpqq .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1187,15 +1229,15 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 4px;
 }
 
-#jhjkdmvuit .gt_column_spanner_outer:first-child {
+#navefqnpqq .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jhjkdmvuit .gt_column_spanner_outer:last-child {
+#navefqnpqq .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jhjkdmvuit .gt_column_spanner {
+#navefqnpqq .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1207,11 +1249,11 @@ ul.task-list li input[type="checkbox"] {
   width: 100%;
 }
 
-#jhjkdmvuit .gt_spanner_row {
+#navefqnpqq .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#jhjkdmvuit .gt_group_heading {
+#navefqnpqq .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1237,7 +1279,7 @@ ul.task-list li input[type="checkbox"] {
   text-align: left;
 }
 
-#jhjkdmvuit .gt_empty_group_heading {
+#navefqnpqq .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1252,15 +1294,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 
-#jhjkdmvuit .gt_from_md > :first-child {
+#navefqnpqq .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jhjkdmvuit .gt_from_md > :last-child {
+#navefqnpqq .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jhjkdmvuit .gt_row {
+#navefqnpqq .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1279,7 +1321,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#jhjkdmvuit .gt_stub {
+#navefqnpqq .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1292,7 +1334,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#jhjkdmvuit .gt_stub_row_group {
+#navefqnpqq .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1306,15 +1348,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: top;
 }
 
-#jhjkdmvuit .gt_row_group_first td {
+#navefqnpqq .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#jhjkdmvuit .gt_row_group_first th {
+#navefqnpqq .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#jhjkdmvuit .gt_summary_row {
+#navefqnpqq .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1324,16 +1366,16 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#jhjkdmvuit .gt_first_summary_row {
+#navefqnpqq .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#jhjkdmvuit .gt_first_summary_row.thick {
+#navefqnpqq .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#jhjkdmvuit .gt_last_summary_row {
+#navefqnpqq .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1343,7 +1385,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#jhjkdmvuit .gt_grand_summary_row {
+#navefqnpqq .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1353,7 +1395,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#jhjkdmvuit .gt_first_grand_summary_row {
+#navefqnpqq .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1363,7 +1405,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-color: #D3D3D3;
 }
 
-#jhjkdmvuit .gt_last_grand_summary_row_top {
+#navefqnpqq .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1373,11 +1415,11 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#jhjkdmvuit .gt_striped {
+#navefqnpqq .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jhjkdmvuit .gt_table_body {
+#navefqnpqq .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1386,7 +1428,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#jhjkdmvuit .gt_footnotes {
+#navefqnpqq .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1400,7 +1442,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#jhjkdmvuit .gt_footnote {
+#navefqnpqq .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1409,7 +1451,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#jhjkdmvuit .gt_sourcenotes {
+#navefqnpqq .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1423,7 +1465,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#jhjkdmvuit .gt_sourcenote {
+#navefqnpqq .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1431,72 +1473,72 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#jhjkdmvuit .gt_left {
+#navefqnpqq .gt_left {
   text-align: left;
 }
 
-#jhjkdmvuit .gt_center {
+#navefqnpqq .gt_center {
   text-align: center;
 }
 
-#jhjkdmvuit .gt_right {
+#navefqnpqq .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jhjkdmvuit .gt_font_normal {
+#navefqnpqq .gt_font_normal {
   font-weight: normal;
 }
 
-#jhjkdmvuit .gt_font_bold {
+#navefqnpqq .gt_font_bold {
   font-weight: bold;
 }
 
-#jhjkdmvuit .gt_font_italic {
+#navefqnpqq .gt_font_italic {
   font-style: italic;
 }
 
-#jhjkdmvuit .gt_super {
+#navefqnpqq .gt_super {
   font-size: 65%;
 }
 
-#jhjkdmvuit .gt_footnote_marks {
+#navefqnpqq .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#jhjkdmvuit .gt_asterisk {
+#navefqnpqq .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#jhjkdmvuit .gt_indent_1 {
+#navefqnpqq .gt_indent_1 {
   text-indent: 5px;
 }
 
-#jhjkdmvuit .gt_indent_2 {
+#navefqnpqq .gt_indent_2 {
   text-indent: 10px;
 }
 
-#jhjkdmvuit .gt_indent_3 {
+#navefqnpqq .gt_indent_3 {
   text-indent: 15px;
 }
 
-#jhjkdmvuit .gt_indent_4 {
+#navefqnpqq .gt_indent_4 {
   text-indent: 20px;
 }
 
-#jhjkdmvuit .gt_indent_5 {
+#navefqnpqq .gt_indent_5 {
   text-indent: 25px;
 }
 
-#jhjkdmvuit .katex-display {
+#navefqnpqq .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#jhjkdmvuit div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#navefqnpqq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1516,23 +1558,23 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <th id="stub_1_1" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
 <td class="gt_row gt_left" headers="stub_1_1 instrumento">Fondecyt Regular</td>
-<td class="gt_row gt_right" headers="stub_1_1 Overhead Total">220.922.584</td>
-<td class="gt_row gt_right" headers="stub_1_1 Overhead FACSO">165.691.937</td>
-<td class="gt_row gt_right" headers="stub_1_1 Overhad DIP">16.569.196</td>
+<td class="gt_row gt_right" headers="stub_1_1 Overhead Total">219.150.500</td>
+<td class="gt_row gt_right" headers="stub_1_1 Overhead FACSO">164.362.875</td>
+<td class="gt_row gt_right" headers="stub_1_1 Overhad DIP">16.436.288</td>
 </tr>
 <tr class="even">
 <th id="stub_1_2" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
 <td class="gt_row gt_left" headers="stub_1_2 instrumento">Iniciación en Investigación</td>
-<td class="gt_row gt_right" headers="stub_1_2 Overhead Total">27.540.000</td>
-<td class="gt_row gt_right" headers="stub_1_2 Overhead FACSO">20.655.000</td>
-<td class="gt_row gt_right" headers="stub_1_2 Overhad DIP">2.065.500</td>
+<td class="gt_row gt_right" headers="stub_1_2 Overhead Total">27.123.333</td>
+<td class="gt_row gt_right" headers="stub_1_2 Overhead FACSO">20.342.500</td>
+<td class="gt_row gt_right" headers="stub_1_2 Overhad DIP">2.034.250</td>
 </tr>
 <tr class="odd">
 <th id="grand_summary_stub_1" class="gt_row gt_left gt_stub gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" data-quarto-table-cell-role="th" scope="row">Total</th>
 <td class="gt_row gt_left gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 instrumento" style="font-weight: bold">—</td>
-<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 Overhead Total" style="font-weight: bold">248.462.584</td>
-<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 Overhead FACSO" style="font-weight: bold">186.346.937</td>
-<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 Overhad DIP" style="font-weight: bold">18.634.696</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 Overhead Total" style="font-weight: bold">246.273.833</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 Overhead FACSO" style="font-weight: bold">184.705.375</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 Overhad DIP" style="font-weight: bold">18.470.538</td>
 </tr>
 </tbody>
 </table>
@@ -1542,23 +1584,23 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <div class="cell" data-tbl-cap="Distribución del Overhead FACSO por Departamento del IR (DEA 50%, Departamento IR 40%, DIP 10%)">
 <div class="cell-output-display">
-<div id="ymklxyurxt" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ymklxyurxt table {
+<div id="rwcrrmjkvq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#rwcrrmjkvq table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ymklxyurxt thead, #ymklxyurxt tbody, #ymklxyurxt tfoot, #ymklxyurxt tr, #ymklxyurxt td, #ymklxyurxt th {
+#rwcrrmjkvq thead, #rwcrrmjkvq tbody, #rwcrrmjkvq tfoot, #rwcrrmjkvq tr, #rwcrrmjkvq td, #rwcrrmjkvq th {
   border-style: none;
 }
 
-#ymklxyurxt p {
+#rwcrrmjkvq p {
   margin: 0;
   padding: 0;
 }
 
-#ymklxyurxt .gt_table {
+#rwcrrmjkvq .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1584,12 +1626,12 @@ ul.task-list li input[type="checkbox"] {
   border-left-color: #D3D3D3;
 }
 
-#ymklxyurxt .gt_caption {
+#rwcrrmjkvq .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ymklxyurxt .gt_title {
+#rwcrrmjkvq .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1601,7 +1643,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-width: 0;
 }
 
-#ymklxyurxt .gt_subtitle {
+#rwcrrmjkvq .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1613,7 +1655,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-width: 0;
 }
 
-#ymklxyurxt .gt_heading {
+#rwcrrmjkvq .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1625,13 +1667,13 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#ymklxyurxt .gt_bottom_border {
+#rwcrrmjkvq .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ymklxyurxt .gt_col_headings {
+#rwcrrmjkvq .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1646,7 +1688,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#ymklxyurxt .gt_col_heading {
+#rwcrrmjkvq .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1666,7 +1708,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#ymklxyurxt .gt_column_spanner_outer {
+#rwcrrmjkvq .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1678,15 +1720,15 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 4px;
 }
 
-#ymklxyurxt .gt_column_spanner_outer:first-child {
+#rwcrrmjkvq .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ymklxyurxt .gt_column_spanner_outer:last-child {
+#rwcrrmjkvq .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ymklxyurxt .gt_column_spanner {
+#rwcrrmjkvq .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1698,11 +1740,11 @@ ul.task-list li input[type="checkbox"] {
   width: 100%;
 }
 
-#ymklxyurxt .gt_spanner_row {
+#rwcrrmjkvq .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ymklxyurxt .gt_group_heading {
+#rwcrrmjkvq .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1728,7 +1770,7 @@ ul.task-list li input[type="checkbox"] {
   text-align: left;
 }
 
-#ymklxyurxt .gt_empty_group_heading {
+#rwcrrmjkvq .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1743,15 +1785,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 
-#ymklxyurxt .gt_from_md > :first-child {
+#rwcrrmjkvq .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ymklxyurxt .gt_from_md > :last-child {
+#rwcrrmjkvq .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ymklxyurxt .gt_row {
+#rwcrrmjkvq .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1770,7 +1812,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#ymklxyurxt .gt_stub {
+#rwcrrmjkvq .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1783,7 +1825,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#ymklxyurxt .gt_stub_row_group {
+#rwcrrmjkvq .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1797,15 +1839,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: top;
 }
 
-#ymklxyurxt .gt_row_group_first td {
+#rwcrrmjkvq .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ymklxyurxt .gt_row_group_first th {
+#rwcrrmjkvq .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ymklxyurxt .gt_summary_row {
+#rwcrrmjkvq .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1815,16 +1857,16 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#ymklxyurxt .gt_first_summary_row {
+#rwcrrmjkvq .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ymklxyurxt .gt_first_summary_row.thick {
+#rwcrrmjkvq .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ymklxyurxt .gt_last_summary_row {
+#rwcrrmjkvq .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1834,7 +1876,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#ymklxyurxt .gt_grand_summary_row {
+#rwcrrmjkvq .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1844,7 +1886,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#ymklxyurxt .gt_first_grand_summary_row {
+#rwcrrmjkvq .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1854,7 +1896,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-color: #D3D3D3;
 }
 
-#ymklxyurxt .gt_last_grand_summary_row_top {
+#rwcrrmjkvq .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1864,11 +1906,11 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#ymklxyurxt .gt_striped {
+#rwcrrmjkvq .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ymklxyurxt .gt_table_body {
+#rwcrrmjkvq .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1877,7 +1919,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#ymklxyurxt .gt_footnotes {
+#rwcrrmjkvq .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1891,7 +1933,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#ymklxyurxt .gt_footnote {
+#rwcrrmjkvq .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1900,7 +1942,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#ymklxyurxt .gt_sourcenotes {
+#rwcrrmjkvq .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1914,7 +1956,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#ymklxyurxt .gt_sourcenote {
+#rwcrrmjkvq .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1922,72 +1964,72 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#ymklxyurxt .gt_left {
+#rwcrrmjkvq .gt_left {
   text-align: left;
 }
 
-#ymklxyurxt .gt_center {
+#rwcrrmjkvq .gt_center {
   text-align: center;
 }
 
-#ymklxyurxt .gt_right {
+#rwcrrmjkvq .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ymklxyurxt .gt_font_normal {
+#rwcrrmjkvq .gt_font_normal {
   font-weight: normal;
 }
 
-#ymklxyurxt .gt_font_bold {
+#rwcrrmjkvq .gt_font_bold {
   font-weight: bold;
 }
 
-#ymklxyurxt .gt_font_italic {
+#rwcrrmjkvq .gt_font_italic {
   font-style: italic;
 }
 
-#ymklxyurxt .gt_super {
+#rwcrrmjkvq .gt_super {
   font-size: 65%;
 }
 
-#ymklxyurxt .gt_footnote_marks {
+#rwcrrmjkvq .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ymklxyurxt .gt_asterisk {
+#rwcrrmjkvq .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ymklxyurxt .gt_indent_1 {
+#rwcrrmjkvq .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ymklxyurxt .gt_indent_2 {
+#rwcrrmjkvq .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ymklxyurxt .gt_indent_3 {
+#rwcrrmjkvq .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ymklxyurxt .gt_indent_4 {
+#rwcrrmjkvq .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ymklxyurxt .gt_indent_5 {
+#rwcrrmjkvq .gt_indent_5 {
   text-indent: 25px;
 }
 
-#ymklxyurxt .katex-display {
+#rwcrrmjkvq .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#ymklxyurxt div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#rwcrrmjkvq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2008,10 +2050,10 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <th id="stub_1_1" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
 <td class="gt_row gt_left" headers="stub_1_1 Departamento IR">Antropología</td>
-<td class="gt_row gt_right" headers="stub_1_1 Overhead FACSO">33.521.375</td>
-<td class="gt_row gt_right" headers="stub_1_1 DEA (50%)">16.760.688</td>
-<td class="gt_row gt_right" headers="stub_1_1 Departamento IR (40%)">13.408.550</td>
-<td class="gt_row gt_right" headers="stub_1_1 DIP (10%)">3.352.138</td>
+<td class="gt_row gt_right" headers="stub_1_1 Overhead FACSO">38.428.250</td>
+<td class="gt_row gt_right" headers="stub_1_1 DEA (50%)">19.214.125</td>
+<td class="gt_row gt_right" headers="stub_1_1 Departamento IR (40%)">15.371.300</td>
+<td class="gt_row gt_right" headers="stub_1_1 DIP (10%)">3.842.825</td>
 </tr>
 <tr class="even">
 <th id="stub_1_2" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
@@ -2024,10 +2066,10 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <th id="stub_1_3" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
 <td class="gt_row gt_left" headers="stub_1_3 Departamento IR">Psicología</td>
-<td class="gt_row gt_right" headers="stub_1_3 Overhead FACSO">49.546.312</td>
-<td class="gt_row gt_right" headers="stub_1_3 DEA (50%)">24.773.156</td>
-<td class="gt_row gt_right" headers="stub_1_3 Departamento IR (40%)">19.818.525</td>
-<td class="gt_row gt_right" headers="stub_1_3 DIP (10%)">4.954.631</td>
+<td class="gt_row gt_right" headers="stub_1_3 Overhead FACSO">42.997.875</td>
+<td class="gt_row gt_right" headers="stub_1_3 DEA (50%)">21.498.938</td>
+<td class="gt_row gt_right" headers="stub_1_3 Departamento IR (40%)">17.199.150</td>
+<td class="gt_row gt_right" headers="stub_1_3 DIP (10%)">4.299.788</td>
 </tr>
 <tr class="even">
 <th id="stub_1_4" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
@@ -2048,10 +2090,10 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <th id="grand_summary_stub_1" class="gt_row gt_left gt_stub gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" data-quarto-table-cell-role="th" scope="row">Total</th>
 <td class="gt_row gt_left gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 Departamento IR" style="font-weight: bold">—</td>
-<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 Overhead FACSO" style="font-weight: bold">186.346.937</td>
-<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 DEA (50%)" style="font-weight: bold">93.173.468</td>
-<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 Departamento IR (40%)" style="font-weight: bold">74.538.775</td>
-<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 DIP (10%)" style="font-weight: bold">18.634.693</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 Overhead FACSO" style="font-weight: bold">184.705.375</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 DEA (50%)" style="font-weight: bold">92.352.687</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 Departamento IR (40%)" style="font-weight: bold">73.882.150</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 DIP (10%)" style="font-weight: bold">18.470.537</td>
 </tr>
 </tbody>
 </table>

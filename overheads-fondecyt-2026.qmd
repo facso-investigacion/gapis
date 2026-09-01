@@ -18,10 +18,17 @@ library(pacman)
 p_load(tidyverse,
        readr,
        gt,
-       writexl)
+       writexl,
+       readxl,
+       janitor)
 
 data <- read_csv("input/proyectos_vigentes.csv")
+anid <- read_xlsx("input/BDH_HISTORICA.xlsx")
 
+anid <- anid |>  clean_names()
+anid <- anid |>  select(codigo_proyecto, institucion_principal)
+
+data <- data |> left_join(anid, by="codigo_proyecto")
 ```
 
 ```{r}
@@ -31,31 +38,35 @@ overheads <- data |>
   mutate(
  across(starts_with("financ_ano"), as.numeric),
  monto_adjudicado = ifelse(is.na(monto_adjudicado), (financ_ano_1+financ_ano_2+financ_ano_3+financ_ano_4)*100, monto_adjudicado),
-  ppto_promedio_anual = monto_adjudicado/duracion*12000,
-  ppto_2026 = case_when(
+  ppto_promedio_anual = (monto_adjudicado-7500)/duracion*12000,
+  ppto_total_2026 = case_when(
     anio_concurso == 2026 ~ financ_ano_1,
     anio_concurso == 2025 ~ financ_ano_2,
     anio_concurso == 2024 ~ financ_ano_3,
     anio_concurso == 2023 ~ financ_ano_4
   ),
-  ppto_2026= ifelse(is.na(ppto_2026) | ppto_2026==0, ppto_promedio_anual, ppto_2026),
-  ppto_2026 = ppto_2026-7500000,
-  ppto_2026_solicitado= round((ppto_2026/1.2),0),
-  overheads = round((ppto_2026_solicitado*0.2),0),
-  overheads_facso = round((overheads*0.75),0),
-  overheads_dip = round((overheads * 0.075),0)
-) |>
+  ppto_total_2026= ifelse(is.na(ppto_total_2026) | ppto_total_2026==0, ppto_promedio_anual, ppto_total_2026),
+  h = 7500000,
+  v = round((ppto_total_2026-h)/1.2, 0),
+  overhead_total = (ppto_total_2026-h)/6,
+  overhead_facso = overhead_total*0.75,
+  overhead_dip = overhead_facso*0.1
+  ) |>
   select(
     anio_concurso,
     codigo_proyecto,
     investigador_responsable,
     departamento_ir,
     instrumento = concurso,
-    ppto_2026,
-    ppto_2026_solicitado,
-    overheads,
-    overheads_facso,
-    overheads_dip
+    ppto_total_2026,
+    ppto_solicitado = v,
+    overhead_total,
+    overhead_facso,
+    overhead_dip
+  ) |> 
+  filter(
+    !codigo_proyecto %in% c("11240192", "11240611", "1231651", "1240606", "1240922",
+    "1250444", "1250603", "1251916")
   )
 
 
@@ -64,33 +75,77 @@ overheads <- data |>
 
 ## Cálculo y supuestos
 
-1. **Presupuesto anual 2026**: se toma el monto de financiamiento del proyecto correspondiente al año 2026 según su año de concurso;
-  - Concurso 2026 → `año 1
-  - Concurso 2025 → `año 2
-  - Concurso 2024 → `año 3
-  - Concurso 2023 → `año 4
-2. **Imputación cuando falta el dato**: si el presupuesto 2026 queda vacío o en 0, se reemplaza por un promedio anual estimado.
-- Al presupuesto 2026 se le resta un monto fijo de $7.500.000, correspondiente al máximo de honorarios que se puede pagar el IR. Se asume el monto máximo en todos los casos. 
-3. **Presupuesto solicitado**: se divide el presupuesto ajustado por 1,2, asumiendo que ese monto registrado por SEPAVID ya incluye un 20% de overhead sobre el presupuesto solicitado. Se asume un 20% para todos los proyectos. 
-- **Overhead total**: corresponde al 20% del presupuesto solicitado. Se asumo 20% para todos los proyectos. 
-- **Distribución del overhead**: del overhead total, un 75% se asigna a FACSO y un 7,5% a la DIP.
-- **Distribución del overhead FACSO**: del overhead FACSO, un 50% se asigna a la DEA, un 40% al Departamento del IR y un 10% a la DIP.
+**Limitaciones y Alcance**
+
+Se incluye únicamente proyectos Fondecyt Regular y Fondecyt de Iniciación con Investigador/a Responsable FACSO e institución patrocinante Universidad de Chile. De tal modo, no se contabilizan los gastos de administración que podrían entrar por Coinvestigadores en proyectos Fondecyt Regular, o de Directores Alternos e Investigadores Principales en proyectos asociativos. Asimismo, se excluye a investigadores/as de la Facultad que hayan ingresado después de adjudicarse el proyecto y no hayan realizado (o esté en curso) el trámite de cambio de institución patrocinante. 
+
+Por otro lado, la estimación se construyó bajo dos supuestos.
+
+1. Que todos los investigadores/as solicitaron el 20% destinado a gastos de administración y todo ese porcentaje está destinado a la Universidad de Chile. 
+
+2. Que todos los investigadores/as solicitaron el monto máximo destinado al pago de honorarios a IR y COI, esto es, $7.500.000. 
+
+**Presupuesto anual 2026**: 
+
+Se toma el monto de financiamiento del proyecto correspondiente al año 2026 según su año de concurso:
+
+- Para concursos del año 2026, se considera el presupuesto del año 1 del proyecto
+- Para concursos del año 2025, se considera el presupuesto del año 2 del proyecto
+- Para concursos del año 2024, se considera el presupuesto del año 3 del proyecto
+- Para concursos del año 2023, se considera el presupuesto del año 4 del proyecto
+
+**Cálculo del Overhead Total**
+
+SEPAVID reporta el monto total destinado al proyecto, sumando el monto solicitado por el investigador (contando honorarios) y el overhead. De tal forma, el monto informado por SEPAVID podría expresarse así:
+
+$$
+S = P + O + H = 1.2P + H
+$$
+
+Donde P es el Presupuesto Solicitado sobre el cuál se calcula el overhead, O es el Overhead y H es el monto destinado a honorarios al investigador. Se toma como supuesto que se solicitó el porcentaje máximo de overhead (20%).
+
+Despejando la fórmula obtenemos que el valor sobre el cuál se calcular el overhead es:
+
+$$
+P = \frac{S-H}{1.2}
+$$
+
+Considerando que el Overhead es el 20% de $P$, tenemos que: 
+
+
+$$
+O = 0.2P = 0.2 * \frac{S-H}{1.2}
+$$
+Simplificando:
+
+$$
+O = \frac{S-H}{6}
+$$
+
+Es decir, bajo los supuestos aquí establecidos, el monto total del overhead para cada proyecto es la sexta parte del valor total reportado por SEPAVID menos los honorarios del investigador. 
+
+**Cálculo Overhead FACSO y DIP**
+
+Del Overhead total, un 75% corresponde a la Facultad. Este 75% se distribuye en un 50% para la Dirección Económica, un 40% para el Departamento correspondiente y un 10% para la Dirección de Investigación. 
+
+En la siguiente tabla se muestra el cálculo para cada proyecto individual: 
 
 ```{r}
 #| label: tabla-overheads
 #| tbl-cap: "Estimación de ingresos por Overheads proyectos FONDECYT 2026"
 
-planilla <- overheads |>
+planilla <- overheads |> 
   rename(
     `Año concurso` = anio_concurso,
     `Código` = codigo_proyecto,
     `IR` = investigador_responsable,
+    "Departamento IR" = departamento_ir,
     `Instrumento` = instrumento,
-    `Ppto anual total ($)` = ppto_2026,
-    "Ppto solicitado 2026 ($)" = ppto_2026_solicitado,
-    `Overheads Total ($)` = overheads,
-    "Overheads FACSO ($)" = overheads_facso,
-    `Overheads DIP ($)` = overheads_dip
+    `Ppto anual total ($)` = ppto_total_2026,
+    "Ppto solicitado 2026 ($)" = ppto_solicitado,
+    `Overheads Total ($)` = overhead_total,
+    "Overheads FACSO ($)" = overhead_facso,
+    `Overheads DIP ($)` = overhead_dip,
   )
 
 write_xlsx(planilla, "overheads_2026.xlsx")
@@ -126,9 +181,9 @@ Nota. El presupuesto anual de los proyectos con presupuesto imputado corresponde
 overheads |>
   group_by(instrumento) |>
   summarise(
-    "Overhead Total" = sum(overheads, na.rm = TRUE),
-    "Overhead FACSO" = sum(overheads_facso, na.rm=TRUE), 
-    "Overhad DIP" = sum(overheads_dip, na.rm = TRUE)
+    "Overhead Total" = sum(overhead_total, na.rm = TRUE),
+    "Overhead FACSO" = sum(overhead_facso, na.rm=TRUE),
+    "Overhad DIP" = sum(overhead_dip, na.rm = TRUE)
   ) |>
   gt() |>
   fmt_number(
@@ -154,7 +209,7 @@ overheads |>
 overheads |>
   group_by(departamento_ir) |>
   summarise(
-    "Overhead FACSO" = sum(overheads_facso, na.rm = TRUE)
+    "Overhead FACSO" = sum(overhead_facso, na.rm = TRUE)
   ) |>
   mutate(
     "DEA (50%)" = round(`Overhead FACSO` * 0.5, 0),
@@ -178,4 +233,5 @@ overheads |>
   ) |>
   tab_options(table.font.size = px(16))
 ```
+
 
